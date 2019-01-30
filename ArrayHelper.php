@@ -38,4 +38,34 @@ class ArrayHelper
         }
         return $source;
     }
+
+    /**
+     * Convert snak_case keys to camelCase
+     *
+     * ```php
+     * $data = [
+     *      'demo_field' => 100
+     * ];
+     *
+     * $data = ArrayHelper::camelCaseKeys($data);
+     *
+     * // result:
+     * [
+     *      'demoField' => 100
+     * ]
+     *
+     * ```
+     *
+     * @param array $source
+     * @return array
+     */
+    public static function camelCaseKeys(array $source)
+    {
+        $destination = [];
+        foreach ($source as $key => $value) {
+            $key = lcfirst(implode('', array_map('ucfirst', explode('_', $key))));
+            $destination[$key] = $value;
+        }
+        return $destination;
+    }
 }
