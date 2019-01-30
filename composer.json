@@ -1,0 +1,29 @@
+{
+    "name": "dimsog/arrayhelper",
+    "description": "ArrayHelper for PHP 5.4+",
+    "keywords": ["ArrayHelper", "array"],
+    "type": "library",
+    "license": "MIT",
+    "support": {
+      "issues": "https://github.com/dimsog/arrayhelper/issues",
+      "source": "https://github.com/dimsog/arrayhelper"
+    },
+    "authors": [
+        {
+            "name": "Dmitry R",
+            "email": "dimsog@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "dimsog\\arrayhelper\\": ""
+        }
+    }
+}
