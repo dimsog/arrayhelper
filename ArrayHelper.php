@@ -68,4 +68,64 @@ class ArrayHelper
         }
         return $destination;
     }
+
+    /**
+     * Replace the key from an array.
+     *
+     * ```php
+     * $array = [
+     *      'foo' => 'bar'
+     * ];
+     * ArrayHelper::replaceKey('foo', 'baz', $array);
+     * ```
+     *
+     * result:
+     * ```php
+     * [
+     *      'baz' => 'bar'
+     * ]
+     * ```
+     *
+     * @param $oldKey
+     * @param $newKey
+     * @param $array
+     */
+    public static function replaceKey($oldKey, $newKey, &$array)
+    {
+        if (array_key_exists($oldKey, $array) === false) {
+            return;
+        }
+        $array[$newKey] = $array[$oldKey];
+        unset($array[$oldKey]);
+    }
+
+    /**
+     * Retrieves the value of an array.
+     *
+     * For example:
+     * ```php
+     * // simple demo
+     * ArrayHelper::getValue($user, 'id');
+     *
+     * // with callback default value
+     * ArrayHelper::getValue($user, 'name', function() {
+     *      return "Dmitry R";
+     * });
+     * ```
+     *
+     * @param array $array
+     * @param $key
+     * @param null|\Closure $defaultValue
+     * @return mixed
+     */
+    public static function getValue(array $array, $key, $defaultValue = null)
+    {
+        if (array_key_exists($key, $array) === false) {
+            if ($defaultValue instanceof \Closure) {
+                $defaultValue = call_user_func($defaultValue);
+            }
+            return $defaultValue;
+        }
+        return $array[$key];
+    }
 }

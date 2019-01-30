@@ -45,4 +45,33 @@ class ArrayHelperTest extends TestCase
         $source = [100, 200, 300];
         $this->assertEquals($source, ArrayHelper::camelCaseKeys($source));
     }
+
+    public function testReplaceKey()
+    {
+        $array = [
+            'foo' => 'bar',
+            'test' => 123,
+            'test2' => 321
+        ];
+        ArrayHelper::replaceKey('foo', 'baz', $array);
+        ArrayHelper::replaceKey('test', 'test_new', $array);
+        ArrayHelper::replaceKey('unknown_key', 'test123', $array);
+
+        $this->assertEquals('bar', $array['baz']);
+        $this->assertEquals('123', $array['test_new']);
+        $this->assertEquals('321', $array['test2']);
+    }
+
+    public function testGetValue()
+    {
+        $array = [
+            'foo' => 'bar'
+        ];
+
+        $this->assertEquals('bar', ArrayHelper::getValue($array, 'foo'));
+        $this->assertEquals(null, ArrayHelper::getValue($array, 'test'));
+        $this->assertEquals('test2', ArrayHelper::getValue($array, 'test2', function() {
+            return 'test2';
+        }));
+    }
 }
