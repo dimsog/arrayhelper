@@ -120,12 +120,16 @@ class ArrayHelper
      */
     public static function getValue(array $array, $key, $defaultValue = null)
     {
-        if (array_key_exists($key, $array) === false) {
-            if ($defaultValue instanceof \Closure) {
-                $defaultValue = call_user_func($defaultValue);
-            }
-            return $defaultValue;
+        if ($defaultValue instanceof \Closure) {
+            $defaultValue = call_user_func($defaultValue);
         }
-        return $array[$key];
+        if (($position = strrpos($key, '.')) !== false) {
+            $array = static::getValue($array, substr($key, 0, $position), $defaultValue);
+            $key = substr($key, $position + 1);
+        }
+        if (array_key_exists($key, $array)) {
+            return $array[$key];
+        }
+        return $defaultValue;
     }
 }
