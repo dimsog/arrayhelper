@@ -73,5 +73,14 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals('test2', ArrayHelper::getValue($array, 'test2', function() {
             return 'test2';
         }));
+
+        $array2 = [
+            'foo' => [
+                'bar' => [
+                    'baz' => 123
+                ]
+            ]
+        ];
+        $this->assertEquals(123, ArrayHelper::getValue($array2, 'foo.bar.baz'));
     }
 }
