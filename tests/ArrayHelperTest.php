@@ -19,7 +19,20 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals(1000, $source['created_at']);
         $this->assertEquals('FooBar', $source['name']);
         $this->assertEquals('200', $source['other']);
+
+        $source2 = [
+            'id' => '100',
+            'test' => '200',
+            'foo'   => 'bar'
+        ];
+
+        $source2 = ArrayHelper::toInt($source2);
+        $this->assertEquals(100, $source2['id']);
+        $this->assertEquals(200, $source2['test']);
+        $this->assertEquals(0, $source2['foo']);
     }
+
+
 
     public function testToCamelCase()
     {

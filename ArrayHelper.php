@@ -23,12 +23,21 @@ class ArrayHelper
      * ]
      * ```
      *
+     * Convert all values:
+     * $source = ArrayHelper::toInt($source);
+     *
      * @param array $source
      * @param array $keys
      * @return array
      */
-    public static function toInt(array $source, array $keys)
+    public static function toInt(array $source, array $keys = [])
     {
+        if (empty($keys)) {
+            // transform all
+            return array_map(function($item) {
+                return (int) $item;
+            }, $source);
+        }
         $keys = array_values($keys);
         foreach ($keys as $key) {
             if (array_key_exists($key, $source) === false) {
@@ -111,6 +120,14 @@ class ArrayHelper
      * ArrayHelper::getValue($user, 'name', function() {
      *      return "Dmitry R";
      * });
+     *
+     * // Retrivies the value of a sub-array
+     * $user = [
+     *      'photo' => [
+     *          'big'   => '/path/to/image.jpg'
+     *      ]
+     * ]
+     * ArrayHelper::getValue($user, 'photo.big');
      * ```
      *
      * @param array $array
