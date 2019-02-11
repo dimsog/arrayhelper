@@ -19,6 +19,9 @@ $source = ArrayHelper::toInt($source, ["id" "created_at"]);
     "created_at" => 10000,
     "name" => "Foo Bar"
 ]
+
+// Convert all values:
+$source = ArrayHelper::toInt($source);
 ```
 
 ### Camel Case Keys
@@ -58,4 +61,12 @@ ArrayHelper::getValue($user, 'id');
 ArrayHelper::getValue($user, 'name', function() {
      return "Dmitry R";
 });
+
+// Retrivies the value of a sub-array
+$user = [
+    'photo' => [
+        'big'   => '/path/to/image.jpg'
+    ]
+]
+ArrayHelper::getValue($user, 'photo.big');
 ```
