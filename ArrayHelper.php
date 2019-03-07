@@ -149,4 +149,41 @@ class ArrayHelper
         }
         return $defaultValue;
     }
+
+    /**
+     * Check, if this array is multidimensional
+     *
+     * For example:
+     *
+     * ```php
+     * ArrayHelper:isMulti([
+     *  'foo' => 'bar'
+     * ]);
+     * -> false
+     * ```
+     *
+     * ArrayHelper:isMulti([
+     *  ['foo' => 'bar'],
+     *  ['foo' => 'bar']
+     * ]);
+     *
+     * -> true
+     *
+     *
+     * @param array $array
+     * @param bool $strongCheck
+     * @return bool
+     */
+    public static function isMulti(array $array, $strongCheck = false)
+    {
+        if ($strongCheck) {
+            foreach ($array as $key => $item) {
+                if (is_int($key) == false || is_array($item) == false) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return isset($array[0]) && is_array($array[0]);
+    }
 }

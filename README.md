@@ -70,3 +70,12 @@ $user = [
 ]
 ArrayHelper::getValue($user, 'photo.big');
 ```
+
+### Check if an array is multidimensional
+```
+$array = [
+    ['foo' => 'bar'],
+    ['foo' => 'bar']
+];
+ArrayHelper::isMulti($array);
+```

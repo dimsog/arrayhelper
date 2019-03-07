@@ -96,4 +96,24 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals(123, ArrayHelper::getValue($array2, 'foo.bar.baz'));
     }
+
+    public function testIsMultiArray()
+    {
+        $array = [123];
+        $this->assertFalse(ArrayHelper::isMulti($array));
+
+        $array = [
+            ['foo' => 'bar'],
+            ['foo2' => 'bar']
+        ];
+        $this->assertTrue(ArrayHelper::isMulti($array));
+
+        $array = [
+            ['foo' => 'bar'],
+            123,
+            456
+        ];
+        $this->assertFalse(ArrayHelper::isMulti($array, true));
+        $this->assertTrue(ArrayHelper::isMulti($array));
+    }
 }
