@@ -186,4 +186,26 @@ class ArrayHelper
         }
         return isset($array[0]) && is_array($array[0]);
     }
+
+    /**
+     * Extract a slice of the array
+     *
+     * For example:
+     * ```php
+     * $array = [1, 2, 3, 4, 5, 6];
+     * ArrayHelper::paginate($array, 1, 3)
+     * // return: [1, 2, 3]
+     * ```
+     *
+     * @param array $array
+     * @param int $page - current page
+     * @param int $limit - limit of values
+     *
+     * @return array
+     */
+    public static function paginate(array $array, $page, $limit)
+    {
+        $offset = max(0, ($page - 1) * $limit);
+        return array_slice($array, $offset, $limit, true);
+    }
 }

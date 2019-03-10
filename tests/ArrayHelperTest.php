@@ -116,4 +116,21 @@ class ArrayHelperTest extends TestCase
         $this->assertFalse(ArrayHelper::isMulti($array, true));
         $this->assertTrue(ArrayHelper::isMulti($array));
     }
+
+    public function testPaginate()
+    {
+        $array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        $expected = [3 => 4, 4 => 5, 5 => 6];
+        $this->assertEquals($expected, ArrayHelper::paginate($array, 2, 3));
+        $this->assertEquals([1, 2, 3], ArrayHelper::paginate($array, -1, 3));
+        $this->assertEquals([1, 2, 3], ArrayHelper::paginate($array, 1, 3));
+        $this->assertEquals([8 => 9, 9 => 10], ArrayHelper::paginate($array, 2, 8));
+
+        $array = [
+            'foo' => 'bar',
+            'foo2' => 'bar2'
+        ];
+        $this->assertEquals(['foo' => 'bar'], ArrayHelper::paginate($array, 1, 1));
+        $this->assertEquals([], ArrayHelper::paginate($array, 100, 200));
+    }
 }
