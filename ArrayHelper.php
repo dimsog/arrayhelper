@@ -161,12 +161,12 @@ class ArrayHelper
      * ]);
      * -> false
      * ```
-     *
+     * ```php
      * ArrayHelper:isMulti([
      *  ['foo' => 'bar'],
      *  ['foo' => 'bar']
      * ]);
-     *
+     *```
      * -> true
      *
      *
@@ -194,7 +194,7 @@ class ArrayHelper
      * ```php
      * $array = [1, 2, 3, 4, 5, 6];
      * ArrayHelper::paginate($array, 1, 3)
-     * // return: [1, 2, 3]
+     * -> [1, 2, 3]
      * ```
      *
      * @param array $array
