@@ -79,3 +79,27 @@ $array = [
 ];
 ArrayHelper::isMulti($array);
 ```
+
+### Paginate
+Extract a slice of the array
+```
+$array = [1, 2, 3, 4, 5, 6];
+ArrayHelper::paginate($array, 1, 3)
+result: [1, 2, 3]
+```
+
+### Shuffle an array
+```
+ArrayHelper::shuffle([1, 2, 3]);
+result: [3, 1, 2]
+```
+
+### Random
+Pick one or more random elements out of an array
+```
+ArrayHelper::random([1, 2, 3])
+result: 1 or 2 or 3
+
+ArrayHelper::random([1, 2, 3], 2);
+result: [1, 3]
+```
