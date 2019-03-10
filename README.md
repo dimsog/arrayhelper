@@ -1,6 +1,15 @@
 # ArrayHelper
 ArrayHelper for PHP 5.4+
 
+Supported versions:
+* PHP 5.4
+* PHP 5.5
+* PHP 5.6
+* PHP 7.0
+* PHP 7.1
+* PHP 7.2
+* PHP 7.3
+
 # Code examples
 ### toInt
 Transform some properties to int
