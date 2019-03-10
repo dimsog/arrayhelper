@@ -208,4 +208,64 @@ class ArrayHelper
         $offset = max(0, ($page - 1) * $limit);
         return array_slice($array, $offset, $limit, true);
     }
+
+    /**
+     * Shuffle an array
+     *
+     * ```php
+     * ArrayHelper::shuffle([1, 2, 3]);
+     * -> [3, 1, 2]
+     * ```
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function shuffle(array $array)
+    {
+        $keys = array_keys($array);
+        shuffle($keys);
+
+        $newArray = [];
+        foreach ($keys as $key) {
+            $newArray[$key] = $array[$key];
+        }
+        return $newArray;
+    }
+
+    /**
+     * Pick one or more random elements out of an array
+     *
+     * ```php
+     * ArrayHelper::random([1, 2, 3])
+     * -> 1 or 2 or 3
+     *
+     * ArrayHelper::random([1, 2, 3], 2);
+     * -> [1, 3]
+     * ```
+     *
+     * @param array $array
+     * @param int $count
+     * @return array|mixed
+     */
+    public static function random(array $array, $count = 1)
+    {
+        $total = count($array);
+        $count = max(1, (int) $count);
+
+        if ($count > $total) {
+            return static::shuffle($array);
+        }
+
+        if ($count == 1) {
+            return $array[array_rand($array)];
+        }
+
+        $keys = array_rand($array, $count);
+        $newArray = [];
+        foreach ($keys as $key) {
+            $newArray[$key] = $array[$key];
+        }
+
+        return $newArray;
+    }
 }

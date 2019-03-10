@@ -133,4 +133,28 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals(['foo' => 'bar'], ArrayHelper::paginate($array, 1, 1));
         $this->assertEquals([], ArrayHelper::paginate($array, 100, 200));
     }
+
+    public function testShuffle()
+    {
+        $array = [1, 2, 3, 4];
+        $this->assertTrue(is_array(ArrayHelper::shuffle($array)));
+        $this->assertEquals(4, count(ArrayHelper::shuffle($array)));
+    }
+
+    public function testRandom()
+    {
+        $array = [1, 2, 3, 4];
+        $this->assertTrue(is_int(ArrayHelper::random($array)));
+        $this->assertEquals(2, count(ArrayHelper::random($array, 2)));
+        $this->assertEquals(4, count(ArrayHelper::random($array, 1000)));
+        $this->assertTrue(is_int(ArrayHelper::random($array, -1)));
+
+        $array = [
+            new \stdClass(),
+            new \stdClass(),
+            new \stdClass()
+        ];
+        $this->assertEquals(3, count(ArrayHelper::random($array, 3)));
+        $this->assertInstanceOf('stdClass', ArrayHelper::random($array));
+    }
 }
