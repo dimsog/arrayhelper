@@ -273,10 +273,10 @@ class ArrayHelper
      * Determine whether array is assoc or not
      * ```php
      * ArrayHelper::isAssoc([1, 2, 3]);
-     * -> true
+     * -> false
      *
      * ArrayHelper::isAssoc(['foo' => 'bar']);
-     * -> false
+     * -> true
      * ```
      * @param array $array
      * @return bool
