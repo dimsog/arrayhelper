@@ -1,14 +1,14 @@
 # ArrayHelper
 ArrayHelper for PHP 5.4+
 
-Supported versions:
- PHP 5.4
- PHP 5.5
- PHP 5.6
- PHP 7.0
- PHP 7.1
- PHP 7.2
- PHP 7.3
+Supported PHP versions:
+* PHP 5.4
+* PHP 5.5
+* PHP 5.6
+* PHP 7.0
+* PHP 7.1
+* PHP 7.2
+* PHP 7.3
 
 # Install
 You can install ArrayHelper via composer:
