@@ -17,11 +17,7 @@ composer require dimsog/arrayhelper
 ```
 Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 
-<<<<<<< HEAD
 # Available methods
-=======
-#Available methods
->>>>>>> 69d1f354ec8b87bf6d99bf13acd541b53fd0ac95
 * [camelCaseKeys](#camel-case-keys)
 * [except](#except)
 * [getValue](#get-value)
@@ -58,11 +54,7 @@ Get a subset of the items from the given array except $keys
 ```php
 ArrayHelper::except(array $array, array $keys)
 ```
-<<<<<<< HEAD
 ##### Demo:
-=======
-#####Demo:
->>>>>>> 69d1f354ec8b87bf6d99bf13acd541b53fd0ac95
 ```php
 ArrayHelper::except(['a', 'b', 'c'], ['a', 'b']);
 result: ['c']
@@ -73,11 +65,7 @@ Retrieves the value of an array.
 ```php
 ArrayHelper::getValue(array $array, $key, $defaultValue = null)
 ```
-<<<<<<< HEAD
 ##### Demo:
-=======
-#####Demo:
->>>>>>> 69d1f354ec8b87bf6d99bf13acd541b53fd0ac95
 ```php
 ArrayHelper::getValue($user, 'id');
 
@@ -100,11 +88,7 @@ Determine whether array is assoc or not
 ```php
 ArrayHelper::isAssoc(array $array)
 ```
-<<<<<<< HEAD
 ##### Demo:
-=======
-#####Demo:
->>>>>>> 69d1f354ec8b87bf6d99bf13acd541b53fd0ac95
 ```php
 ArrayHelper::isAssoc([1, 2, 3]);
 result: false
@@ -132,11 +116,7 @@ Get a subset of the items from the given array
 ```php
 ArrayHelper::only(array $array, array $keys)
 ```
-<<<<<<< HEAD
 ##### Demo:
-=======
-#####Demo:
->>>>>>> 69d1f354ec8b87bf6d99bf13acd541b53fd0ac95
 ```php
 ArrayHelper::only(['a', 'b', 'c'], ['a', 'b']);
 result: ['a', 'b'];
@@ -210,11 +190,7 @@ Extract a slice of the array
 ```php
 ArrayHelper::paginate(array $array, $page, $limit)
 ```
-<<<<<<< HEAD
 ##### Demo:
-=======
-#####Demo:
->>>>>>> 69d1f354ec8b87bf6d99bf13acd541b53fd0ac95
 ```php
 $array = [1, 2, 3, 4, 5, 6];
 ArrayHelper::paginate($array, 1, 3)
@@ -226,11 +202,7 @@ Pick one or more random elements out of an array
 ```php
 ArrayHelper::random(array $array, $count = 1)
 ```
-<<<<<<< HEAD
 ##### Demo:
-=======
-#####Demo:
->>>>>>> 69d1f354ec8b87bf6d99bf13acd541b53fd0ac95
 ```php
 ArrayHelper::random([1, 2, 3])
 result: 1 or 2 or 3
@@ -262,11 +234,7 @@ ArrayHelper::replaceKey('foo', 'baz', $array);
 ```php
 ArrayHelper::shuffle(array $array)
 ```
-<<<<<<< HEAD
 ##### Demo:
-=======
-#####Demo:
->>>>>>> 69d1f354ec8b87bf6d99bf13acd541b53fd0ac95
 ```php
 ArrayHelper::shuffle([1, 2, 3]);
 result: [3, 1, 2]
