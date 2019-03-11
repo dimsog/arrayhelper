@@ -10,6 +10,13 @@ Supported versions:
 * PHP 7.2
 * PHP 7.3
 
+# Install
+You can install ArrayHelper via composer:
+```bash
+composer require dimsog/arrayhelper
+```
+Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
+
 # Code examples
 ### toInt
 Transform some properties to int
