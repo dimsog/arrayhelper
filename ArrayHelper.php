@@ -355,7 +355,7 @@ class ArrayHelper
      *
      * For example:
      * ```php
-     * ArrayHelper::except(['a', 'b', 'c'], ['a', 'b'])
+     * ArrayHelper::except(['a', 'b', 'c'], ['a', 'b']);
      * -> ['c']
      *```
      *
@@ -367,7 +367,7 @@ class ArrayHelper
      *      'foo' => 'bar',
      *      'foo2' => 'bar2'
      * ];
-     * ArrayHelper::except($array, ['foo2'])
+     * ArrayHelper::except($array, ['foo2']);
      * -> ['foo' => 'bar']
      * ```
      *
