@@ -157,4 +157,109 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals(3, count(ArrayHelper::random($array, 3)));
         $this->assertInstanceOf('stdClass', ArrayHelper::random($array));
     }
+
+    public function testIsAssoc()
+    {
+        $this->assertFalse(ArrayHelper::isAssoc([1, 2, 3]));
+        $this->assertFalse(ArrayHelper::isAssoc([[1], [2], [3]]));
+        $this->assertTrue(ArrayHelper::isAssoc(['foo' => 'baz', 'foo2' => 'bar']));
+        $this->assertTrue(ArrayHelper::isAssoc(['123', 456, 'foo' => 'bar']));
+    }
+
+    public function testOnly()
+    {
+        $array = ['foo', 'bar', 'baz'];
+        $this->assertEquals(['bar', 'baz'], ArrayHelper::only($array, ['bar', 'baz']));
+
+        $array = [
+            'foo' => 'bar',
+            'foo2' => 'bar2',
+            'foo3' => 'bar3'
+        ];
+        $expected = [
+            'foo2' => 'bar2',
+            'foo3' => 'bar3'
+        ];
+        $this->assertEquals($expected, ArrayHelper::only($array, ['foo2', 'foo3']));
+
+        // check multi
+        $array = [
+            [
+                'foo' => 'bar',
+                'foo2' => 'bar2',
+                'foo3' => 'bar3'
+            ],
+            [
+                'foo' => 'bar',
+                'foo2' => 'bar2',
+                'foo3' => 'bar3'
+            ],
+            [
+                'foo' => 'bar',
+                'foo2' => 'bar2',
+                'foo3' => 'bar3'
+            ]
+        ];
+        $expected = [
+            [
+                'foo2' => 'bar2',
+                'foo3' => 'bar3'
+            ],
+            [
+                'foo2' => 'bar2',
+                'foo3' => 'bar3'
+            ],
+            [
+                'foo2' => 'bar2',
+                'foo3' => 'bar3'
+            ]
+        ];
+        $this->assertEquals($expected, ArrayHelper::only($array, ['foo2', 'foo3']));
+        $this->assertEquals(['a', 'b'], ArrayHelper::only(['a', 'b', 'c'], ['a', 'b']));
+
+        $array = [
+            'foo'   => 'bar',
+            'foo2'  => 'bar2',
+            'foo3'  => 'bar3'
+        ];
+        $this->assertEquals(['foo2' => 'bar2'], ArrayHelper::only($array, ['foo2']));
+    }
+
+    public function testExcept()
+    {
+        $array = ['a', 'b', 'c', 'd'];
+        $this->assertEquals(['a', 'b'], ArrayHelper::except($array, ['c', 'd', 'KKKK']));
+
+        $array = [
+            'foo' => 'bar',
+            'foo2' => 'bar2'
+        ];
+        $this->assertEquals(['foo' => 'bar'], ArrayHelper::except($array, ['foo2']));
+        $this->assertEquals([], ArrayHelper::except($array, ['foo', 'foo2']));
+
+        $array = [
+            [
+                'foo' => 'bar',
+                'foo2' => 'bar2'
+            ],
+            [
+                'foo' => 'bar',
+                'foo2' => 'bar2'
+            ]
+        ];
+        $expected = [
+            ['foo' => 'bar'],
+            ['foo' => 'bar']
+        ];
+        $this->assertEquals($expected, ArrayHelper::except($array, ['foo2']));
+
+        $array = [
+            ['foo' => 'bar'],
+            'test' => 'test2',
+            'test2' => function() {
+
+            }
+        ];
+        $this->assertEquals([['foo' => 'bar']], ArrayHelper::except($array, ['test', 'test2']));
+    }
 }

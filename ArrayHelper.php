@@ -268,4 +268,145 @@ class ArrayHelper
 
         return $newArray;
     }
+
+    /**
+     * Determine whether array is assoc or not
+     * ```php
+     * ArrayHelper::isAssoc([1, 2, 3]);
+     * -> true
+     *
+     * ArrayHelper::isAssoc(['foo' => 'bar']);
+     * -> false
+     * ```
+     * @param array $array
+     * @return bool
+     */
+    public static function isAssoc(array $array)
+    {
+        if (empty($array)) {
+            return false;
+        }
+        return array_keys($array) !== range(0, count($array) - 1);
+    }
+
+    /**
+     * Get a subset of the items from the given array.
+     *
+     * For example:
+     * ```php
+     * ArrayHelper::only(['a', 'b', 'c'], ['a', 'b']);
+     * -> ['a', 'b'];
+     *```php
+     *
+     * With assoc array
+     * ```php
+     * ArrayHelper::only([
+     *      'foo'   => 'bar',
+     *      'foo2'  => 'bar2',
+     *      'foo3'  => 'bar3'
+     * ], ['foo2']);
+     * ->
+     * [
+     *  'foo2' => 'bar2'
+     * ]
+     * ```
+     *
+     * With multi array:
+     * ```php
+     * $array = [
+     *      [
+     *          'foo' => 'bar',
+     *          'foo2' => 'bar2'
+     *      ],
+     *      [
+     *          'foo' => 'bar',
+     *          'foo2' => 'bar2'
+     *      ]
+     * ]
+     * ArrayHelper::only($array, ['foo']);
+     * ->
+     * [
+     *   ['foo' => 'bar'],
+     *   ['foo' => 'bar']
+     * ]
+     * ```
+     *
+     * @param array $array
+     * @param array $keys
+     * @return array
+     */
+    public static function only(array $array, array $keys)
+    {
+        $isMulti = static::isMulti($array, true);
+        if (static::isAssoc($array) === false && $isMulti === false) {
+            return array_values(array_intersect($array, $keys));
+        }
+
+        if ($isMulti === true) {
+            return array_map(function($arrayItem) use ($keys) {
+                return array_intersect_key($arrayItem, array_flip($keys));
+            }, $array);
+        }
+        return array_intersect_key($array, array_flip($keys));
+    }
+
+    /**
+     * Get a subset of the items from the given array except $keys
+     *
+     * For example:
+     * ```php
+     * ArrayHelper::except(['a', 'b', 'c'], ['a', 'b'])
+     * -> ['c']
+     *```php
+     *
+     * With assoc array:
+     * ```php
+     * $array = [
+     *      'foo' => 'bar',
+     *      'foo2' => 'bar2'
+     * ];
+     * ArrayHelper::except($array, ['foo2'])
+     * -> ['foo' => 'bar']
+     * ```
+     *
+     * With multi array:
+     * ```php
+     * $array = [
+     *      [
+     *          'foo' => 'bar',
+     *          'foo2' => 'bar2'
+     *      ],
+     *      [
+     *          'foo' => 'bar',
+     *          'foo2' => 'bar2'
+     *      ]
+     *  ];
+     * ArrayHelper::except($array, ['foo2']);
+     * ->
+     * [
+     *   ['foo' => 'bar'],
+     *   ['foo' => 'bar']
+     * ]
+     *
+     * ```
+     *
+     * @param array $array
+     * @param array $keys
+     * @return array
+     */
+    public static function except(array $array, array $keys)
+    {
+        $isMulti = static::isMulti($array, true);
+
+        if (static::isAssoc($array) === false && $isMulti === false) {
+            return array_diff($array, $keys);
+        }
+
+        if ($isMulti) {
+            return array_map(function($item) use ($keys) {
+                return array_diff_key($item, array_flip($keys));
+            }, $array);
+        }
+        return array_diff_key($array, array_flip($keys));
+    }
 }
