@@ -296,7 +296,7 @@ class ArrayHelper
      * ```php
      * ArrayHelper::only(['a', 'b', 'c'], ['a', 'b']);
      * -> ['a', 'b'];
-     *```php
+     *```
      *
      * With assoc array
      * ```php
@@ -357,6 +357,8 @@ class ArrayHelper
      * ```php
      * ArrayHelper::except(['a', 'b', 'c'], ['a', 'b'])
      * -> ['c']
+     *```
+     *
      *```php
      *
      * With assoc array:
