@@ -2,13 +2,13 @@
 ArrayHelper for PHP 5.4+
 
 Supported versions:
-* PHP 5.4
-* PHP 5.5
-* PHP 5.6
-* PHP 7.0
-* PHP 7.1
-* PHP 7.2
-* PHP 7.3
+ PHP 5.4
+ PHP 5.5
+ PHP 5.6
+ PHP 7.0
+ PHP 7.1
+ PHP 7.2
+ PHP 7.3
 
 # Install
 You can install ArrayHelper via composer:
@@ -119,3 +119,91 @@ result: 1 or 2 or 3
 ArrayHelper::random([1, 2, 3], 2);
 result: [1, 3]
 ```
+
+### isAssoc
+Determine whether array is assoc or not
+```php
+ArrayHelper::isAssoc([1, 2, 3]);
+result: false
+
+ArrayHelper::isAssoc(['foo' => 'bar']);
+result: true
+```
+
+### Only
+Get a subset of the items from the given array
+```php
+ArrayHelper::only(['a', 'b', 'c'], ['a', 'b']);
+result: ['a', 'b'];
+```
+With assoc array:
+```php
+$array = [
+    'foo'   => 'bar',
+    'foo2'  => 'bar2',
+    'foo3'  => 'bar3'
+];
+ArrayHelper::only($array, ['foo2']);
+
+result:
+[
+    'foo2' => 'bar2'
+]
+```
+With multi array:
+```php
+$array = [
+    [
+        'foo' => 'bar',
+        'foo2' => 'bar2'
+    ],
+    [
+        'foo' => 'bar',
+        'foo2' => 'bar2'
+    ]
+];
+ArrayHelper::only($array, ['foo']);
+result: 
+[
+    ['foo' => 'bar'],
+    ['foo' => 'bar']
+]
+```
+
+### Except
+Get a subset of the items from the given array except $keys
+```php
+ArrayHelper::except(['a', 'b', 'c'], ['a', 'b']);
+result: ['c']
+```
+
+With assoc array:
+```php
+$array = [
+    'foo' => 'bar',
+    'foo2' => 'bar2'
+];
+ArrayHelper::except($array, ['foo2']);
+result: ['foo' => 'bar']
+ ```
+
+With multi array:
+ ```php
+$array = [
+      [
+          'foo' => 'bar',
+          'foo2' => 'bar2'
+      ],
+      [
+          'foo' => 'bar',
+          'foo2' => 'bar2'
+      ]
+];
+ArrayHelper::except($array, ['foo2']);
+result:
+[
+   ['foo' => 'bar'],
+   ['foo' => 'bar']
+]
+
+ ```
