@@ -20,7 +20,7 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 # Code examples
 ### toInt
 Transform some properties to int
-```
+```php
 $source = [
     "id" => "100",
     "created_at" => "10000",
@@ -42,7 +42,7 @@ $source = ArrayHelper::toInt($source);
 
 ### Camel Case Keys
 Convert snak_case keys to camelCase
-```
+```php
 $data = ArrayHelper::camelCaseKeys([
     'demo_field' => 100
 ]);
@@ -55,7 +55,7 @@ $data = ArrayHelper::camelCaseKeys([
 
 ### Replace key
 Replace the key from an array.
-```
+```php
 $array = [
      'foo' => 'bar'
 ];
@@ -70,7 +70,7 @@ ArrayHelper::replaceKey('foo', 'baz', $array);
 
 ### Get value
 Retrieves the value of an array.
-```
+```php
 ArrayHelper::getValue($user, 'id');
 
 // with callback default value
@@ -88,7 +88,7 @@ ArrayHelper::getValue($user, 'photo.big');
 ```
 
 ### Check if an array is multidimensional
-```
+```php
 $array = [
     ['foo' => 'bar'],
     ['foo' => 'bar']
@@ -98,21 +98,21 @@ ArrayHelper::isMulti($array);
 
 ### Paginate
 Extract a slice of the array
-```
+```php
 $array = [1, 2, 3, 4, 5, 6];
 ArrayHelper::paginate($array, 1, 3)
 result: [1, 2, 3]
 ```
 
 ### Shuffle an array
-```
+```php
 ArrayHelper::shuffle([1, 2, 3]);
 result: [3, 1, 2]
 ```
 
 ### Random
 Pick one or more random elements out of an array
-```
+```php
 ArrayHelper::random([1, 2, 3])
 result: 1 or 2 or 3
 
