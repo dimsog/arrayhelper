@@ -401,7 +401,7 @@ class ArrayHelper
         $isMulti = static::isMulti($array, true);
 
         if (static::isAssoc($array) === false && $isMulti === false) {
-            return array_diff($array, $keys);
+            return array_values(array_diff($array, $keys));
         }
 
         if ($isMulti) {
