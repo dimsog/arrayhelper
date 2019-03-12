@@ -411,4 +411,52 @@ class ArrayHelper
         }
         return array_diff_key($array, array_flip($keys));
     }
+
+    /**
+     * Return the values from a single column in the input array
+     * ```php
+     * $array = [
+     *      [
+     *          'id' => 1,
+     *          'name' => 'test1'
+     *      ],
+     *      [
+     *          'id' => 2,
+     *          'name' => 'test2'
+     *      ],
+     *      [
+     *          'id' => 3,
+     *          'name' => 'test3'
+     *      ],
+     *      [
+     *          'id' => 4,
+     *          'name' => 'test4'
+     *      ]
+     * ]
+     *
+     * ArrayHelper::column($array, 'id');
+     *
+     * -> [1, 2, 3, 4]
+     * ```
+     *
+     * @param array $array
+     * @param $key
+     * @return array
+     */
+    public static function column(array $array, $key)
+    {
+        if (function_exists('array_column')) {
+            return array_column($array, $key);
+        }
+        $newArray = [];
+        foreach ($array as $item) {
+            if (is_array($item) == false) {
+                continue;
+            }
+            if (array_key_exists($key, $item)) {
+                $newArray[] = $item[$key];
+            }
+        }
+        return $newArray;
+    }
 }

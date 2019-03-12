@@ -262,4 +262,29 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals([['foo' => 'bar']], ArrayHelper::except($array, ['test', 'test2']));
     }
+
+    public function testColumn()
+    {
+        $array = [
+            [
+                'id' => 1,
+                'name' => 'test1'
+            ],
+            [
+                'id' => 2,
+                'name' => 'test2'
+            ],
+            [
+                'id' => 3,
+                'name' => 'test3'
+            ],
+            [
+                'id' => 4,
+                'name' => 'test4'
+            ]
+        ];
+        $this->assertEquals([1, 2, 3, 4], ArrayHelper::column($array, 'id'));
+        $this->assertEquals(['test1', 'test2', 'test3', 'test4'], ArrayHelper::column($array, 'name'));
+        $this->assertEquals([], ArrayHelper::column(['id' => '123', 'test' => 'name'], 'id'));
+    }
 }

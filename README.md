@@ -19,6 +19,7 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 
 # Available methods
 * [camelCaseKeys](#camel-case-keys)
+* [column](#column)
 * [except](#except)
 * [getValue](#get-value)
 * [isAssoc](#isassoc)
@@ -47,6 +48,27 @@ $data = ArrayHelper::camelCaseKeys([
 [
      'demoField' => 100
 ]
+```
+
+### Column
+Return the values from a single column in the input array
+```php
+ArrayHelper::column(array $array, $key)
+```
+##### Demo:
+```php
+$array = [
+    [
+        'id' => 1,
+        'name' => 'test1'
+    ],
+    [
+        'id' => 2,
+        'name' => 'test2'
+    ]
+];
+ArrayHelper::column($array, 'id');
+result: [1, 2]
 ```
 
 ### Except
