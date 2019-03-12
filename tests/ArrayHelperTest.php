@@ -297,20 +297,58 @@ class ArrayHelperTest extends TestCase
         $array = [
             [
                 'id' => 1,
+                'category_id' => 5,
                 'name' => 'test1'
             ],
             [
                 'id' => 2,
+                'category_id' => 5,
                 'name' => 'test2'
             ],
             [
                 'id' => 3,
+                'category_id' => 1,
                 'name' => 'test3'
             ],
             [
+                'category_id' => 5,
                 'id' => 4,
                 'name' => 'test4'
             ]
         ];
+        $result1 = [
+            0 => [
+                'id' => 1,
+                'category_id' => 5,
+                'name' => 'test1'
+            ],
+            1 => [
+                'id' => 2,
+                'category_id' => 5,
+                'name' => 'test2'
+            ],
+            3 => [
+                'category_id' => 5,
+                'id' => 4,
+                'name' => 'test4'
+            ]
+        ];
+        $result2 = [
+            2 => [
+                'id' => 3,
+                'category_id' => 1,
+                'name' => 'test3'
+            ]
+        ];
+        $this->assertEquals($result1, ArrayHelper::filter($array, ['category_id' => 5]));
+        $this->assertEquals($result2, ArrayHelper::filter($array, ['category_id' => 1]));
+
+        $this->assertEquals($result1, ArrayHelper::filter($array, function($item) {
+            return $item['category_id'] == 5;
+        }));
+
+        $this->assertEquals($result2, ArrayHelper::filter($array, function($item) {
+            return $item['category_id'] == 1;
+        }));
     }
 }
