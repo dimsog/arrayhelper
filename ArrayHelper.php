@@ -459,4 +459,31 @@ class ArrayHelper
         }
         return $newArray;
     }
+
+    public static function filter(array $array, $condition)
+    {
+        if (is_callable($condition)) {
+            return array_filter($array, $condition);
+        }
+
+        if (static::isMulti($array) == false) {
+            return $array;
+        }
+
+        if (is_array($condition) == false || empty($condition)) {
+            return $array;
+        }
+
+        return array_filter($array, function($item) use ($condition) {
+            foreach ($condition as $key => $conditionItem) {
+                if (array_key_exists($key, $item) == false) {
+                    return false;
+                }
+                if ($item[$key] != $conditionItem) {
+                    return false;
+                }
+            }
+            return true;
+        });
+    }
 }
