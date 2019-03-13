@@ -23,6 +23,7 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [except](#except)
 * [filter](#filter)
 * [getValue](#get-value)
+* [insert](#insert)
 * [isAssoc](#isassoc)
 * [isMulti](#ismulti)
 * [only](#only)
@@ -121,11 +122,59 @@ $array = [
  ]
 ```
 
+### Insert
+Insert a new column to exist array
+```php
+ArrayHelper::insert(&$array, $key, $value = null)
+```
+##### Demo:
+```php
+$array = [
+    'id' => 1,
+    'name' => 'Dmitry R'
+];
+ArrayHelper::insert($array, 'country', 'Russia');
+result:
+[
+    'id' => 1,
+    'name' => 'Dmitry R',
+    'country' => 'Russia'
+]
+```
+
+```php
+$array = [
+    [
+        'id' => 1,
+        'name' => 'Dmitry R'
+    ],
+    [
+        'id' => 1,
+        'name' => 'Dmitry R'
+    ]
+];
+ArrayHelper::insert($array, 'foo', 'bar');
+result:
+[
+    [
+        'id' => 1,
+        'name' => 'Dmitry R',
+        'foo' => 'bar'
+    ],
+    [
+        'id' => 1,
+        'name' => 'Dmitry R',
+        'foo' => 'bar'
+    ]
+]
+```
+
 ### Get value
 Retrieves the value of an array.
 ```php
 ArrayHelper::getValue(array $array, $key, $defaultValue = null)
 ```
+
 ##### Demo:
 ```php
 ArrayHelper::getValue($user, 'id');

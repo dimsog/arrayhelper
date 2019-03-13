@@ -372,4 +372,44 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals($expected, ArrayHelper::reindex($array));
     }
+
+    public function testInsert()
+    {
+        $array = [
+            'id' => 1,
+            'name' => 'Dmitry R'
+        ];
+        $expected = [
+            'id' => 1,
+            'name' => 'Dmitry R',
+            'country' => 'Russia'
+        ];
+        ArrayHelper::insert($array, 'country', 'Russia');
+        $this->assertEquals($expected, $array);
+
+        $array = [
+           [
+               'id' => 1,
+               'name' => 'Dmitry R'
+           ],
+           [
+               'id' => 1,
+               'name' => 'Dmitry R'
+           ]
+        ];
+        $expected = [
+            [
+                'id' => 1,
+                'name' => 'Dmitry R',
+                'foo' => 'bar'
+            ],
+            [
+                'id' => 1,
+                'name' => 'Dmitry R',
+                'foo' => 'bar'
+            ]
+        ];
+        ArrayHelper::insert($array, 'foo', 'bar');
+        $this->assertEquals($expected,  $array);
+    }
 }

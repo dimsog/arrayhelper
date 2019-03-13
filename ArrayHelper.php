@@ -552,4 +552,63 @@ class ArrayHelper
     {
         return array_values($array);
     }
+
+    /**
+     * Insert a new column to exist array
+     *
+     * For example:
+     * ```php
+     * $array = [
+     *      'id' => 1,
+     *      'name' => 'Dmitry R'
+     * ];
+     * ArrayHelper::insertColumn($array, 'country', 'Russia');
+     * ->
+     * [
+     *      'id' => 1,
+     *      'name' => 'Dmitry R',
+     *      'country' => 'Russia'
+     * ]
+     *
+     * $array = [
+     *      [
+     *          'id' => 1,
+     *          'name' => 'Dmitry R'
+     *      ],
+     *      [
+     *          'id' => 1,
+     *          'name' => 'Dmitry R'
+     *      ]
+     * ];
+     * ArrayHelper::insertColumn($array, 'foo', 'bar');
+     * ->
+     * [
+     *      [
+     *          'id' => 1,
+     *          'name' => 'Dmitry R',
+     *          'foo' => 'bar'
+     *      ],
+     *      [
+     *          'id' => 1,
+     *          'name' => 'Dmitry R',
+     *          'foo' => 'bar'
+     *      ]
+     * ]
+     * ```
+     *
+     * @param $array
+     * @param $key
+     * @param null $value
+     */
+    public static function insert(&$array, $key, $value = null)
+    {
+        if (static::isMulti($array, true)) {
+            foreach ($array as &$item) {
+                $item[$key] = $value;
+            }
+            unset($item);
+        } else {
+            $array[$key] = $value;
+        }
+    }
 }
