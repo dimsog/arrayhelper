@@ -535,6 +535,16 @@ class ArrayHelper
 
     /**
      * Reindex all the keys of an array
+     *
+     * ```php
+     * $array = [
+     *  1 => 10,
+     *  2 => 20
+     * ];
+     * ArrayHelper::reindex($array);
+     * -> [10, 20]
+     * ```
+     *
      * @param $array
      * @return array
      */
