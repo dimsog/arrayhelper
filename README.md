@@ -21,12 +21,14 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [camelCaseKeys](#camel-case-keys)
 * [column](#column)
 * [except](#except)
+* [filter](#filter)
 * [getValue](#get-value)
 * [isAssoc](#isassoc)
 * [isMulti](#ismulti)
 * [only](#only)
 * [paginate](#paginate)
 * [random](#random)
+* [reindex](#reindex)
 * [replaceKey](#replace-key)
 * [shuffle](#shuffle-an-array)
 * [toInt](#toint)
@@ -80,6 +82,43 @@ ArrayHelper::except(array $array, array $keys)
 ```php
 ArrayHelper::except(['a', 'b', 'c'], ['a', 'b']);
 result: ['c']
+```
+
+### Filter
+Filter an array
+```php
+ArrayHelper::filter(array $array, $condition, $preserveKeys = false)
+```
+
+##### Demo:
+```php
+$array = [
+      [
+          'id' => 1,
+          'category_id' => 5,
+          'name' => 'test1'
+      ],
+      [
+          'id' => 3,
+          'category_id' => 1,
+          'name' => 'test3'
+      ],
+ ];
+ 
+ ArrayHelper::filter($array, ['category_id' => 5]);
+ // OR 
+ ArrayHelper::filter($array, function($item) {
+     return $item['category_id'] == 5;
+ });
+ 
+ result:
+ [
+      [
+          'id' => 1,
+          'category_id' => 5,
+          'name' => 'test1'
+      ]
+ ]
 ```
 
 ### Get value
@@ -231,6 +270,21 @@ result: 1 or 2 or 3
 
 ArrayHelper::random([1, 2, 3], 2);
 result: [1, 3]
+```
+
+### Reindex
+Reindex all the keys of an array
+```php
+ArrayHelper::reindex($array)
+```
+##### Demo:
+```php
+$array = [
+    1 => 10,
+    2 => 20
+];
+ArrayHelper::reindex($array);
+result: [10, 20]
 ```
 
 ### Replace key

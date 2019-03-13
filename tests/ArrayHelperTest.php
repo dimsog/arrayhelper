@@ -287,4 +287,89 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals(['test1', 'test2', 'test3', 'test4'], ArrayHelper::column($array, 'name'));
         $this->assertEquals([], ArrayHelper::column(['id' => '123', 'test' => 'name'], 'id'));
     }
+
+    public function testFilter()
+    {
+        // fake test
+        $array = ['a', 'b', 'c'];
+        $this->assertEquals([], ArrayHelper::filter($array, ['id' => 5]));
+
+        $array = [
+            [
+                'id' => 1,
+                'category_id' => 5,
+                'name' => 'test1'
+            ],
+            [
+                'id' => 2,
+                'category_id' => 5,
+                'name' => 'test2'
+            ],
+            [
+                'id' => 3,
+                'category_id' => 1,
+                'name' => 'test3'
+            ],
+            [
+                'category_id' => 5,
+                'id' => 4,
+                'name' => 'test4'
+            ]
+        ];
+        $result1 = [
+            0 => [
+                'id' => 1,
+                'category_id' => 5,
+                'name' => 'test1'
+            ],
+            1 => [
+                'id' => 2,
+                'category_id' => 5,
+                'name' => 'test2'
+            ],
+            3 => [
+                'category_id' => 5,
+                'id' => 4,
+                'name' => 'test4'
+            ]
+        ];
+        $result2 = [
+            2 => [
+                'id' => 3,
+                'category_id' => 1,
+                'name' => 'test3'
+            ]
+        ];
+        $this->assertEquals($result1, ArrayHelper::filter($array, ['category_id' => 5], true));
+        $this->assertEquals($result2, ArrayHelper::filter($array, ['category_id' => 1], true));
+
+        $this->assertEquals($result1, ArrayHelper::filter($array, function($item) {
+            return $item['category_id'] == 5;
+        }, true));
+
+        $this->assertEquals($result2, ArrayHelper::filter($array, function($item) {
+            return $item['category_id'] == 1;
+        }, true));
+
+        $result3 = [
+            [
+                'id' => 3,
+                'category_id' => 1,
+                'name' => 'test3'
+            ]
+        ];
+        $this->assertEquals($result3, ArrayHelper::filter($array, ['category_id' => 1]));
+    }
+
+    public function testReindex()
+    {
+        $array = [
+            1 => ['asd'],
+            5 => 25
+        ];
+        $expected = [
+            ['asd'], 25
+        ];
+        $this->assertEquals($expected, ArrayHelper::reindex($array));
+    }
 }
