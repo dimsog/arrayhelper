@@ -292,7 +292,7 @@ class ArrayHelperTest extends TestCase
     {
         // fake test
         $array = ['a', 'b', 'c'];
-        $this->assertEquals($array, ArrayHelper::filter($array, ['id' => 5]));
+        $this->assertEquals([], ArrayHelper::filter($array, ['id' => 5]));
 
         $array = [
             [
@@ -340,15 +340,36 @@ class ArrayHelperTest extends TestCase
                 'name' => 'test3'
             ]
         ];
-        $this->assertEquals($result1, ArrayHelper::filter($array, ['category_id' => 5]));
-        $this->assertEquals($result2, ArrayHelper::filter($array, ['category_id' => 1]));
+        $this->assertEquals($result1, ArrayHelper::filter($array, ['category_id' => 5], true));
+        $this->assertEquals($result2, ArrayHelper::filter($array, ['category_id' => 1], true));
 
         $this->assertEquals($result1, ArrayHelper::filter($array, function($item) {
             return $item['category_id'] == 5;
-        }));
+        }, true));
 
         $this->assertEquals($result2, ArrayHelper::filter($array, function($item) {
             return $item['category_id'] == 1;
-        }));
+        }, true));
+
+        $result3 = [
+            [
+                'id' => 3,
+                'category_id' => 1,
+                'name' => 'test3'
+            ]
+        ];
+        $this->assertEquals($result3, ArrayHelper::filter($array, ['category_id' => 1]));
+    }
+
+    public function testReindex()
+    {
+        $array = [
+            1 => ['asd'],
+            5 => 25
+        ];
+        $expected = [
+            ['asd'], 25
+        ];
+        $this->assertEquals($expected, ArrayHelper::reindex($array));
     }
 }

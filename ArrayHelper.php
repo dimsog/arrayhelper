@@ -460,21 +460,63 @@ class ArrayHelper
         return $newArray;
     }
 
-    public static function filter(array $array, $condition)
+    /**
+     * Filter an array
+     * Simple example:
+     * ```php
+     * $array = [
+     *      [
+     *          'id' => 1,
+     *          'category_id' => 5,
+     *          'name' => 'test1'
+     *      ],
+     *      [
+     *          'id' => 3,
+     *          'category_id' => 1,
+     *          'name' => 'test3'
+     *      ],
+     * ];
+     * ArrayHelper::filter($array, ['category_id' => 5])
+     * -> [
+     *      [
+     *          'id' => 1,
+     *          'category_id' => 5,
+     *          'name' => 'test1'
+     *      ],
+     * ]
+     * ```
+     *
+     * With callback function:
+     * ```php
+     * ArrayHelper::filter($array, function($item) {
+     *      return $item['category_id'] == 5;
+     * })
+     * ```
+     *
+     * @param array $array
+     * @param array|\Closure $condition
+     * @param bool $preserveKeys if set to TRUE numeric keys are preserved. Non-numeric keys are not affected by this setting and will always be preserved.
+     * @return array
+     */
+    public static function filter(array $array, $condition, $preserveKeys = false)
     {
         if (is_callable($condition)) {
-            return array_filter($array, $condition);
+            $array = array_filter($array, $condition);
+            if ($preserveKeys == false) {
+                $array = static::reindex($array);
+            }
+            return $array;
         }
 
         if (static::isMulti($array) == false) {
-            return $array;
+            return [];
         }
 
         if (is_array($condition) == false || empty($condition)) {
-            return $array;
+            return [];
         }
 
-        return array_filter($array, function($item) use ($condition) {
+        $array = array_filter($array, function($item) use ($condition) {
             foreach ($condition as $key => $conditionItem) {
                 if (array_key_exists($key, $item) == false) {
                     return false;
@@ -485,5 +527,19 @@ class ArrayHelper
             }
             return true;
         });
+        if ($preserveKeys == false) {
+            $array = static::reindex($array);
+        }
+        return $array;
+    }
+
+    /**
+     * Reindex all the keys of an array
+     * @param $array
+     * @return array
+     */
+    public static function reindex($array)
+    {
+        return array_values($array);
     }
 }
