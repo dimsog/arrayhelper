@@ -389,4 +389,21 @@ $source = ArrayHelper::toInt($source, ["id" "created_at"]);
 
 // Convert all values:
 $source = ArrayHelper::toInt($source);
+
+// Since 1.1.0
+$source = [
+    [
+        'id' => '100',
+        'created_at' => '1000',
+        'name' => 'FooBar',
+        'other' => '200'
+    ],
+    [
+        'id' => '200',
+        'created_at' => '2000',
+        'name' => 'FooBar',
+        'other' => '300'
+    ]
+];
+ArrayHelper::toInt($source, ['id', 'created_at', 'other']);
 ```

@@ -26,11 +26,50 @@ class ArrayHelper
      * Convert all values:
      * $source = ArrayHelper::toInt($source);
      *
+     * Since 1.1.0:
+     * ```php
+     * $source = [
+     *      [
+     *          'id' => '1',
+     *          'name' => 'Dmitry R'
+     *      ],
+     *      [
+     *          'id' => '2',
+     *          'name' => 'Dmitry R2'
+     *      ]
+     * ];
+     *
+     * $source = ArrayHelper::toInt($source, ['id']);
+     * // result:
+     * [
+     *      [
+     *          'id' => 1,
+     *          'name' => 'Dmitry R'
+     *      ],
+     *      [
+     *          'id' => 2,
+     *          'name' => 'Dmitry R2'
+     *      ]
+     * ]
+     * ```
+     *
      * @param array $source
      * @param array $keys
      * @return array
      */
     public static function toInt(array $source, array $keys = [])
+    {
+        $keys = array_values($keys);
+
+        if (static::isMulti($source, true)) {
+            return array_map(function($item) use ($keys) {
+                return static::toIntPartOfArray($item, $keys);
+            }, $source);
+        }
+        return static::toIntPartOfArray($source, $keys);
+    }
+
+    private static function toIntPartOfArray(array $source, array $keys = [])
     {
         if (empty($keys)) {
             // transform all
@@ -38,13 +77,16 @@ class ArrayHelper
                 return (int) $item;
             }, $source);
         }
+
         $keys = array_values($keys);
+
         foreach ($keys as $key) {
             if (array_key_exists($key, $source) === false) {
                 continue;
             }
             $source[$key] = (int) $source[$key];
         }
+
         return $source;
     }
 
