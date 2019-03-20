@@ -30,6 +30,29 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals(100, $source2['id']);
         $this->assertEquals(200, $source2['test']);
         $this->assertEquals(0, $source2['foo']);
+
+        $source = [
+            [
+                'id' => '100',
+                'created_at' => '1000',
+                'name' => 'FooBar',
+                'other' => '200'
+            ],
+            [
+                'id' => '200',
+                'created_at' => '2000',
+                'name' => 'FooBar',
+                'other' => '300'
+            ]
+        ];
+        $source = ArrayHelper::toInt($source, ['id', 'created_at', 'other']);
+        $this->assertEquals(100, $source[0]['id']);
+        $this->assertEquals(1000, $source[0]['created_at']);
+        $this->assertEquals(200, $source[0]['other']);
+
+        $this->assertEquals(200, $source[1]['id']);
+        $this->assertEquals(2000, $source[1]['created_at']);
+        $this->assertEquals(300, $source[1]['other']);
     }
 
 
