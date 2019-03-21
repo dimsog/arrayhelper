@@ -4,6 +4,62 @@ namespace dimsog\arrayhelper\tests;
 use dimsog\arrayhelper\ArrayHelper;
 use PHPUnit\Framework\TestCase;
 
+class SimpleClass
+{
+    public $test = null;
+
+    public function __construct()
+    {
+        $std = new \stdClass();
+        $std->f = (new \stdClass());
+        $std->f->b = [1, 2];
+        $this->test = [$std, ['a', 'b']];
+    }
+}
+
+class SimpleIteratorTestClass implements \Iterator
+{
+    private $position = 0;
+
+    private $array = [];
+
+
+    public function __construct()
+    {
+        $this->position = 0;
+        $std = new \stdClass();
+        $std->f = (new \stdClass());
+        $std->f->b = [1, 2];
+
+        $this->array = [1, 2, 3, 4, 'asd', $std, new SimpleClass(), ['yeah' => [1, 2]]];
+    }
+
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    public function current()
+    {
+        return $this->array[$this->position];
+    }
+
+    public function key()
+    {
+        return $this->position;
+    }
+
+    public function next()
+    {
+        ++$this->position;
+    }
+
+    public function valid()
+    {
+        return isset($this->array[$this->position]);
+    }
+}
+
 class ArrayHelperTest extends TestCase
 {
     public function testToInt()
@@ -439,10 +495,10 @@ class ArrayHelperTest extends TestCase
     public function testStrToArray()
     {
         $test = 'Ab Cd';
-        $this->assertEquals(['A', 'b', ' ', 'C', 'd'], ArrayHelper::strToArray($test));
+        $this->assertEquals(['A', 'b', ' ', 'C', 'd'], ArrayHelper::splitString($test));
 
         $test = 'Водка и Медведь'; // russian?
-        $this->assertEquals(['В', 'о', 'д', 'к', 'а', ' ', 'и', ' ', 'М', 'е', 'д', 'в', 'е', 'д', 'ь'], ArrayHelper::strToArray($test));
+        $this->assertEquals(['В', 'о', 'д', 'к', 'а', ' ', 'и', ' ', 'М', 'е', 'д', 'в', 'е', 'д', 'ь'], ArrayHelper::splitString($test));
     }
 
     public function testToArray()
@@ -450,7 +506,93 @@ class ArrayHelperTest extends TestCase
         $test1 = ['a', 'b', 'c'];
         $this->assertEquals($test1, ArrayHelper::toArray($test1));
 
+        $test2 = null;
+        $this->assertEquals($test2, ArrayHelper::toArray($test2));
+
         $array = ['russian' => 'vodka', 'russian2' => 'bear'];
         $std = (object) $array;
+        $this->assertEquals($array, ArrayHelper::toArray($std));
+
+        $stdArray = [clone $std, clone $std, clone $std];
+        $array = [$array, $array, $array];
+        $this->assertEquals($array, ArrayHelper::toArray($stdArray));
+
+        $array = [
+            'foo' => [
+                'bar' => [
+                    'baz' => 1
+                ]
+            ]
+        ];
+
+        $std = json_decode(json_encode($array));
+        $this->assertEquals($array, ArrayHelper::toArray($std));
+        $this->assertEquals("foobar", ArrayHelper::toArray("foobar"));
+
+        $std = new \stdClass();
+        $std->f = (new \stdClass());
+        $std->f->b = [1, 2];
+        $this->test = [$std, ['a', 'b']];
+
+        $expected = [
+            'test' => [
+                [
+                    'f' => [
+                        'b' => [1, 2]
+                    ]
+                ],
+                [
+                    'a', 'b'
+                ]
+            ]
+        ];
+        $this->assertEquals($expected, ArrayHelper::toArray(new SimpleClass()));
+
+        $expected = [
+            'foo' => ['bar'],
+            'foo2' => ['test' => 1]
+        ];
+
+        $std = new \stdClass();
+        $std2 = new \stdClass();
+        $std2->test = 1;
+        $std->foo = ['bar'];
+        $std->foo2 = $std2;
+        $this->assertEquals($expected, ArrayHelper::toArray($std));
+
+        $expected = [
+            1, 2, 3, 4, 'asd',
+            [
+                'f' => [
+                    'b' => [1, 2]
+                ]
+            ],
+            [
+                'test' => [
+                    [
+                        'f' => [
+                            'b' => [1, 2]
+                        ]
+                    ],
+                    [
+                        'a', 'b'
+                    ]
+                ]
+            ],
+            [
+                'yeah' => [1, 2]
+            ]
+        ];
+
+        $this->assertEquals($expected, ArrayHelper::toArray(new SimpleIteratorTestClass()));
+
+        // test string
+        $str = '{"foo":{"bar":123}}';
+        $expected = [
+            'foo' => [
+                'bar' => 123
+            ]
+        ];
+        $this->assertEquals($expected, ArrayHelper::toArray($str));
     }
 }

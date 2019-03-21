@@ -32,6 +32,8 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [reindex](#reindex)
 * [replaceKey](#replace-key)
 * [shuffle](#shuffle-an-array)
+* [splitString](#splitstring)
+* [toArray](#toarray)
 * [toInt](#toint)
 
 # Code examples
@@ -363,6 +365,91 @@ ArrayHelper::shuffle(array $array)
 ```php
 ArrayHelper::shuffle([1, 2, 3]);
 result: [3, 1, 2]
+```
+
+### strToArray
+Split a given string to array
+```php
+ArrayHelper::splitString($str)
+```
+##### Demo:
+```php
+$string = 'Ab Cd';
+ArrayHelper::splitString($string);
+result: ['A', 'b', ' ', 'C', 'd']
+```
+
+### toArray
+Convert a mixed data to array recursively
+
+#### Demo:
+```php
+ArrayHelper::toArray([stdClassInstance, stdClassInstance, someMixedClass]);
+```
+
+```php
+ArrayHelper::toArray('{"foo":{"bar":123}}');
+```
+
+##### Crazy example:
+```php
+class SimpleClass
+{
+    public $test = null;
+
+
+    public function __construct()
+    {
+        $std = new \stdClass();
+        $std->f = (new \stdClass());
+        $std->f->b = [1, 2];
+        $this->test = [$std, ['a', 'b']];
+    }
+}
+
+class SimpleIteratorTestClass implements \Iterator
+{
+    // ...
+    private $array = [];
+
+
+    public function __construct()
+    {
+        $this->position = 0;
+        $std = new \stdClass();
+        $std->f = (new \stdClass());
+        $std->f->b = [1, 2];
+        $this->array = [1, 2, 3, 4, 'asd', $std, new SimpleClass(), ['yeah' => [1, 2]]];
+    }
+
+    // ...
+}
+ArrayHelper::toArray(new SimpleIteratorTestClass());
+
+result: 
+[
+    1, 2, 3, 4, 'asd',
+    [
+        'f' => [
+            'b' => [1, 2]
+        ]
+    ],
+    [
+        'test' => [
+            [
+                'f' => [
+                    'b' => [1, 2]
+                ]
+            ],
+            [
+                'a', 'b'
+            ]
+        ]
+    ],
+    [
+        'yeah' => [1, 2]
+    ]
+]
 ```
 
 ### toInt

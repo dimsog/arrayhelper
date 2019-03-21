@@ -654,15 +654,30 @@ class ArrayHelper
         }
     }
 
-    public static function strToArray($str)
+    /**
+     * Split a given string to array
+     *
+     * ```php
+     * $string = 'Ab Cd';
+     * ArrayHelper::strToArray($string);
+     * // ['A', 'b', ' ', 'C', 'd']
+     * ```
+     *
+     * @param $str
+     * @return array[]|false|string[]
+     */
+    public static function splitString($str)
     {
+        if (empty($str) || is_string($str) == false) {
+            return [];
+        }
         return preg_split('//u', $str, -1, PREG_SPLIT_NO_EMPTY);
     }
 
     private static function toArrayItem($data)
     {
         if ($data instanceof \stdClass) {
-            return (array) $data;
+            return json_decode(json_encode($data), true);
         }
         if (is_object($data)) {
             return get_object_vars($data);
@@ -670,16 +685,36 @@ class ArrayHelper
         return $data;
     }
 
+    /**
+     * Convert a mixed data to array recursively
+     *
+     * ```php
+     * $data = [stdClassInstance, stdClassInstance, someMixedClass];
+     * ArrayHelper::toArray($data);
+     * ```
+     *
+     * ```php
+     * ArrayHelper::toArray('{"foo":{"bar":123}}');
+     * ```
+     *
+     * @param $data
+     * @return array
+     */
     public static function toArray($data)
     {
-        if (is_array($data)) {
+        if (is_string($data) === true) {
+            $jsonArray = json_decode($data, true);
+            if (is_array($jsonArray)) {
+                return $jsonArray;
+            }
+        }
+        if (is_object($data) === true && $data instanceof \Traversable === false) {
+            $data = static::toArrayItem($data);
+        }
+        if (is_array($data) === true || $data instanceof \stdClass === true || $data instanceof \Traversable === true) {
             $newItems = [];
             foreach ($data as $key => $item) {
-                if (is_array($item)) {
-                    $newItems[$key] = static::toArray($item);
-                } else {
-                    $newItems[$key] = static::toArrayItem($item);
-                }
+                $newItems[$key] = static::toArray($item);
             }
             return $newItems;
         }
