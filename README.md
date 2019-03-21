@@ -367,7 +367,7 @@ ArrayHelper::shuffle([1, 2, 3]);
 result: [3, 1, 2]
 ```
 
-### strToArray
+### splitString
 Split a given string to array
 ```php
 ArrayHelper::splitString($str)
