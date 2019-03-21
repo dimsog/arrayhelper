@@ -367,7 +367,7 @@ ArrayHelper::shuffle([1, 2, 3]);
 result: [3, 1, 2]
 ```
 
-### splitString
+### Split string
 Split a given string to array
 ```php
 ArrayHelper::splitString($str)
@@ -379,7 +379,7 @@ ArrayHelper::splitString($string);
 result: ['A', 'b', ' ', 'C', 'd']
 ```
 
-### toArray
+### To array
 Convert a mixed data to array recursively
 
 #### Demo:
