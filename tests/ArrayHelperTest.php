@@ -435,4 +435,22 @@ class ArrayHelperTest extends TestCase
         ArrayHelper::insert($array, 'foo', 'bar');
         $this->assertEquals($expected,  $array);
     }
+
+    public function testStrToArray()
+    {
+        $test = 'Ab Cd';
+        $this->assertEquals(['A', 'b', ' ', 'C', 'd'], ArrayHelper::strToArray($test));
+
+        $test = 'Водка и Медведь'; // russian?
+        $this->assertEquals(['В', 'о', 'д', 'к', 'а', ' ', 'и', ' ', 'М', 'е', 'д', 'в', 'е', 'д', 'ь'], ArrayHelper::strToArray($test));
+    }
+
+    public function testToArray()
+    {
+        $test1 = ['a', 'b', 'c'];
+        $this->assertEquals($test1, ArrayHelper::toArray($test1));
+
+        $array = ['russian' => 'vodka', 'russian2' => 'bear'];
+        $std = (object) $array;
+    }
 }

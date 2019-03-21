@@ -653,4 +653,36 @@ class ArrayHelper
             $array[$key] = $value;
         }
     }
+
+    public static function strToArray($str)
+    {
+        return preg_split('//u', $str, -1, PREG_SPLIT_NO_EMPTY);
+    }
+
+    private static function toArrayItem($data)
+    {
+        if ($data instanceof \stdClass) {
+            return (array) $data;
+        }
+        if (is_object($data)) {
+            return get_object_vars($data);
+        }
+        return $data;
+    }
+
+    public static function toArray($data)
+    {
+        if (is_array($data)) {
+            $newItems = [];
+            foreach ($data as $key => $item) {
+                if (is_array($item)) {
+                    $newItems[$key] = static::toArray($item);
+                } else {
+                    $newItems[$key] = static::toArrayItem($item);
+                }
+            }
+            return $newItems;
+        }
+        return static::toArrayItem($data);
+    }
 }
