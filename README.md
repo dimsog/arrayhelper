@@ -32,8 +32,8 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [reindex](#reindex)
 * [replaceKey](#replace-key)
 * [shuffle](#shuffle-an-array)
-* [splitString](#splitstring)
-* [toArray](#toarray)
+* [splitString](#split-string)
+* [toArray](#to-array)
 * [toInt](#toint)
 
 # Code examples
