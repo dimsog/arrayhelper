@@ -26,6 +26,7 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [insert](#insert)
 * [isAssoc](#isassoc)
 * [isMulti](#ismulti)
+* [keyValue](#keyvalue)
 * [only](#only)
 * [paginate](#paginate)
 * [random](#random)
@@ -221,6 +222,39 @@ $array = [
     ['foo' => 'bar']
 ];
 ArrayHelper::isMulti($array);
+```
+
+### KeyValue
+Convert a multidimensional array to key-value array
+```php
+ArrayHelper::keyValue(array $items, $keyField = 'key', $valueField = 'value')
+```
+
+##### Demo:
+```php
+$array = [
+    [
+        'key' => 'name',
+        'value' => 'Dmitry'
+    ],
+    [
+        'key' => 'country',
+        'value' => 'Russia'
+    ],
+    [
+        'key' => 'city',
+        'value' => 'Oryol (eagle)'
+    ]
+];
+
+$array = ArrayHelper::keyValue($array, 'key', 'value');
+
+result:
+[
+    'name' => 'Dmitry',
+    'country' => 'Russia',
+    'city' => 'Oryol (eagle)'
+];
 ```
 
 ### Only

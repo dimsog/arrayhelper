@@ -595,4 +595,62 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals($expected, ArrayHelper::toArray($str));
     }
+
+    public function testKeyValue()
+    {
+        $array = [1, 2, 3];
+        $this->assertEquals($array, ArrayHelper::keyValue($array, 'key', 'value'));
+
+        $array = [
+            [
+                'foo' => 'bar'
+            ],
+            1,
+            2,
+            3
+        ];
+
+        $this->assertEquals($array, ArrayHelper::keyValue($array, 'foo', 'value'));
+
+        $array = [
+            [
+                'key' => 'name',
+                'value' => 'Dmitry'
+            ],
+            [
+                'key' => 'country',
+                'value' => 'Russia'
+            ],
+            [
+                'key' => 'city',
+                'value' => 'Oryol (eagle)'
+            ]
+        ];
+        $array = ArrayHelper::keyValue($array, 'key', 'value');
+        $expected = [
+            'name' => 'Dmitry',
+            'country' => 'Russia',
+            'city' => 'Oryol (eagle)'
+        ];
+
+        $this->assertEquals($expected, $array);
+
+        $array = [
+            [
+                'value' => 'Dmitry'
+            ],
+            [
+                'key' => 'country',
+                'value' => 'Russia'
+            ],
+            [
+                'key' => 'city'
+            ]
+        ];
+        $array = ArrayHelper::keyValue($array, 'key', 'value');
+        $expected = [
+            'country' => 'Russia'
+        ];
+        $this->assertEquals($expected, $array);
+    }
 }
