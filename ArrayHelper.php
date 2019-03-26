@@ -720,4 +720,53 @@ class ArrayHelper
         }
         return static::toArrayItem($data);
     }
+
+    /**
+     * Convert a multidimensional array to key-value array
+     *
+     * For example:
+     * ```php
+     * $array = [
+     *      [
+     *          'key' => 'name',
+     *          'value' => 'Dmitry'
+     *      ],
+     *      [
+     *          'key' => 'country',
+     *          'value' => 'Russia'
+     *      ],
+     *      [
+     *          'key' => 'city',
+     *          'value' => 'Oryol (eagle)'
+     *      ]
+     * ];
+     *
+     * $array = ArrayHelper::keyValue($array, 'key', 'value');
+     * // result:
+     * $array = [
+     *      'name' => 'Dmitry',
+     *      'country' => 'Russia',
+     *      'city' => 'Oryol (eagle)'
+     * ];
+     * ```
+     *
+     * @param array $items
+     * @param mixed $keyField
+     * @param mixed $valueField
+     * @return array
+     */
+    public static function keyValue(array $items, $keyField = 'key', $valueField = 'value')
+    {
+        if (static::isMulti($items, true) === false) {
+            return $items;
+        }
+        $newArray = [];
+        foreach ($items as $item) {
+            if (array_key_exists($keyField, $item) === false || array_key_exists($valueField, $item) === false) {
+                continue;
+            }
+            $newArray[$item[$keyField]] = $item[$valueField];
+        }
+        return $newArray;
+    }
 }
