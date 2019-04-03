@@ -37,6 +37,15 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [toArray](#to-array)
 * [toInt](#toint)
 
+# Fluent interface
+```php
+ArrayHelper::fluent($sourceArray)
+    ->toInt(['id', 'parent_id'])
+    ->except(['some_field'])
+    ->filter(['user_id' => 100])
+    ->get();
+```
+
 # Code examples
 
 ### Camel Case Keys
