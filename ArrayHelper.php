@@ -3,6 +3,11 @@ namespace dimsog\arrayhelper;
 
 class ArrayHelper
 {
+    public static function fluent(array $array)
+    {
+        return new Fluent($array);
+    }
+
     /**
      * Transform some properties to int
      *
