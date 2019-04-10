@@ -47,6 +47,14 @@ ArrayHelper::fluent($sourceArray)
     ->get();
 ```
 
+# Short code
+You can use Arr instead ArrayHelper.
+```php
+Arr::collapse([[1, 2, 3], [4, 5, 6]]);
+// or
+ArrayHelper::collapse([[1, 2, 3], [4, 5, 6]]);
+```
+
 # Code examples
 
 ### Camel Case Keys
