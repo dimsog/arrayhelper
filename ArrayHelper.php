@@ -886,7 +886,7 @@ class ArrayHelper
      * @param \Closure $callback
      * @return array
      */
-    public static function map($array, \Closure $callback)
+    public static function map(array $array, \Closure $callback)
     {
         return array_map($callback, $array);
     }
