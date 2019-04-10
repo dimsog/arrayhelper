@@ -429,6 +429,93 @@ ArrayHelper::reindex($array);
 result: [10, 20]
 ```
 
+### Remove
+Removes a given key (or keys) from an array using dot notation
+```php
+ArrayHelper::remove(array &$array, $keys)
+```
+
+##### Demo:
+Simple example 1:
+```php
+$array = [
+    'foo' => [
+        'bar' => 'baz'
+    ],
+    'foo1' => 123
+];
+ArrayHelper::remove($array, 'foo.bar');
+
+// result:
+[
+    'foo' => [],
+    'foo1' => 123
+]
+```
+
+Simple example 2:
+```php
+$array = [
+    [
+        'foo' => 'bar',
+        'test' => 'test1'
+    ],
+    [
+        'foo' => 'bar',
+        'test' => 'test2'
+    ]
+];
+ArrayHelper::remove($array, 'foo');
+
+// result:
+[
+    ['test' => 'test1'],
+    ****['test' => 'test2']
+]
+```
+
+Advanced example:
+```php
+$array = [
+    [
+        'foo' => [
+            'bar' => [
+                'baz' => 1
+            ]
+        ],
+        'test' => 'test',
+        'test2' => '123',
+        'only' => true
+    ],
+    [
+        'foo' => [
+            'bar' => [
+                'baz' => 2
+            ]
+        ],
+        'test' => 'test',
+        'test2' => 123
+    ]
+];
+
+ArrayHelper::remove($array, ['foo.bar.baz', 'test', 'only']);
+// result:
+[
+    [
+        'foo' => [
+            'bar' => []
+        ],
+        'test2' => '123'
+    ],
+    [
+        'foo' => [
+            'bar' => []
+        ],
+        'test2' => 123
+    ]
+]
+```
+
 ### Replace key
 Replace the key from an array.
 ```php

@@ -1,6 +1,7 @@
 <?php
 
 use dimsog\arrayhelper\ArrayHelper;
+use dimsog\arrayhelper\Arr;
 
 class FluentTest extends \PHPUnit\Framework\TestCase
 {
@@ -44,5 +45,28 @@ class FluentTest extends \PHPUnit\Framework\TestCase
             ->get();
 
         $this->assertEquals([2, 4, 6], $expected);
+    }
+
+    public function testFluentWithRemove()
+    {
+        $array = [
+            [
+                'foo' => 'bar',
+                'total' => 5
+            ],
+            [
+                'foo' => 'bar',
+                'total' => 10
+            ]
+        ];
+        $result = Arr::fluent($array)
+            ->remove('foo')
+            ->map(function($item) {
+                $item['total'] = $item['total'] + 1;
+                return $item;
+            })
+            ->sum('total');
+
+        $this->assertEquals(17, $result);
     }
 }

@@ -890,4 +890,83 @@ class ArrayHelper
     {
         return array_map($callback, $array);
     }
+
+    /**
+     * Removes a given key (or keys) from an array using dot notation
+     *
+     * ```php
+     * $array = [
+     *      'foo' => [
+     *          'bar' => 'baz'
+     *      ],
+     *      'foo1' => 123
+     * ];
+     * ArrayHelper::remove($array, 'foo.bar');
+     * result:
+     * [
+     *      'foo' => [],
+     *      'foo1' => 123
+     * ]
+     *
+     * ```
+     *
+     * With a multidimensional array:
+     * ```php
+     * $array = [
+     * [
+     *      'foo' => [
+     *          'bar' => [
+     *              'baz' => 1
+     *          ]
+     *      ],
+     *      'test' => 'test',
+     *      'test2' => '123',
+     *      'only' => true
+     * ],
+     * [
+     *      'foo' => [
+     *          'bar' => [
+     *              'baz' => 1
+     *          ]
+     *      ],
+     *      'test' => 'test',
+     *      'test2' => 123
+     * ]
+     * ];
+     * ArrayHelper::remove($array, ['foo.bar.baz', 'test', 'only']);
+     * ```
+     *
+     *
+     * @param array $array
+     * @param $keys
+     */
+    public static function remove(array &$array, $keys)
+    {
+        if (is_array($keys) == false) {
+            $keys = (array) $keys;
+        }
+        if (empty($keys)) {
+            return;
+        }
+        if (static::isMulti($array, true)) {
+            foreach ($array as &$item) {
+                static::remove($item, $keys);
+            }
+            unset($item);
+        }
+        foreach ($keys as $key) {
+            $parts = explode('.', $key);
+            while (empty($parts) == false) {
+                $part = array_shift($parts);
+                if (array_key_exists($part, $array) == false) {
+                    break;
+                }
+                if (empty($parts)) {
+                    unset($array[$part]);
+                } else {
+                    static::remove($array[$part], implode('.', $parts));
+                }
+            }
+        }
+    }
 }

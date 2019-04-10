@@ -710,4 +710,87 @@ class ArrayHelperTest extends TestCase
         });
         $this->assertEquals([2, 4, 6], $expected);
     }
+
+    public function testRemove()
+    {
+        $array = [
+            'foo' => 'bar'
+        ];
+        ArrayHelper::remove($array, 'foo');
+        $this->assertEquals([], $array);
+
+        $array = [
+            'foo' => [
+                'bar' => 'baz'
+            ],
+            'foo1' => 123
+        ];
+        ArrayHelper::remove($array, 'foo.bar');
+        $this->assertEquals(['foo' => [], 'foo1' => 123], $array);
+
+        $array = [
+            'foo' => [
+                'bar' => 'baz'
+            ],
+            'foo1' => 123
+        ];
+        ArrayHelper::remove($array, 'foo');
+        $this->assertEquals(['foo1' => 123], $array);
+
+        $array = [
+            [
+                'foo' => 'bar',
+                'test' => 'test1'
+            ],
+            [
+                'foo' => 'bar',
+                'test' => 'test2'
+            ]
+        ];
+        $expected = [
+            ['test' => 'test1'],
+            ['test' => 'test2']
+        ];
+        ArrayHelper::remove($array, 'foo');
+        $this->assertEquals($expected, $array);
+
+        $array = [
+            [
+                'foo' => [
+                    'bar' => [
+                        'baz' => 1
+                    ]
+                ],
+                'test' => 'test',
+                'test2' => '123',
+                'only' => true
+            ],
+            [
+                'foo' => [
+                    'bar' => [
+                        'baz' => 2
+                    ]
+                ],
+                'test' => 'test',
+                'test2' => 123
+            ]
+        ];
+
+        ArrayHelper::remove($array, ['foo.bar.baz', 'test', 'only']);
+        $expected = [
+            [
+                'foo' => [
+                    'bar' => []
+                ],
+                'test2' => '123'
+            ],
+            [
+                'foo' => [
+                    'bar' => []
+                ],
+                'test2' => 123
+            ]
+        ];
+        $this->assertEquals($expected, $array);
+    }
 }

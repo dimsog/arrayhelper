@@ -226,6 +226,12 @@ class Fluent
         return $this;
     }
 
+    public function remove($keys)
+    {
+        ArrayHelper::remove($this->array, $keys);
+        return $this;
+    }
+
     /**
      * Return a result array
      * @return array
