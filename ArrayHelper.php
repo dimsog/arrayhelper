@@ -800,4 +800,38 @@ class ArrayHelper
             return array_merge($prev, $item);
         }, []);
     }
+
+    /**
+     * Flattens a multidimensional array into an single (flat) array
+     *
+     * ```php
+     * $array = [
+     *   'name' => 'Dmitry R',
+     *   'country' => 'Russia',
+     *   'skills' => ['PHP', 'JS'],
+     *      [
+     *          'identifier' => 'vodka medved balalayka'
+     *      ]
+     * ];
+     * $result = ArrayHelper::values($array);
+     * result: ['Dmitry R', 'Russia', 'PHP', 'JS', 'vodka medved balalayka']
+     * ```
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function values(array $array)
+    {
+        $result = [];
+        foreach ($array as $value) {
+            if (is_array($value) == false) {
+                $result[] = $value;
+            } elseif (static::isMulti($value)) {
+                $result = array_merge($result, static::values($value));
+            } else {
+                $result = array_merge($result, array_values($value));
+            }
+        }
+        return $result;
+    }
 }

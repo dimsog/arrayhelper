@@ -201,6 +201,16 @@ class Fluent
     }
 
     /**
+     * @see ArrayHelper::values()
+     * @return $this
+     */
+    public function values()
+    {
+        $this->array = ArrayHelper::values($this->array);
+        return $this;
+    }
+
+    /**
      * Return a result array
      * @return array
      */

@@ -37,6 +37,7 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [splitString](#split-string)
 * [toArray](#to-array)
 * [toInt](#toint)
+* [values](#values)
 
 # Fluent interface
 ```php
@@ -559,4 +560,23 @@ $source = [
     ]
 ];
 ArrayHelper::toInt($source, ['id', 'created_at', 'other']);
+```
+
+### Values
+Flattens a multidimensional array into an single (flat) array
+```php
+ArrayHelper::values(array $array)
+```
+##### Demo:
+```php
+$array = [
+    'name' => 'Dmitry R',
+    'country' => 'Russia',
+    'skills' => ['PHP', 'JS'],
+    [
+        'identifier' => 'vodka medved balalayka'
+    ]
+];
+// result:
+['Dmitry R', 'Russia', 'PHP', 'JS', 'vodka medved balalayka'];
 ```

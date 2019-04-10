@@ -661,4 +661,28 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals([1, 2, 3], ArrayHelper::collapse([1, 2, 3]));
         $this->assertEquals([1, 2, 3], ArrayHelper::collapse([[1], [2], [3]]));
     }
+
+    public function testFlat()
+    {
+        $array = [
+            'name' => 'Dmitry R',
+            'country' => 'Russia',
+            'skills' => ['PHP', 'JS'],
+            [
+                'identifier' => 'vodka medved balalayka'
+            ]
+        ];
+        $this->assertEquals(['Dmitry R', 'Russia', 'PHP', 'JS', 'vodka medved balalayka'], ArrayHelper::values($array));
+
+        $array = [
+            ['foo'], ['bar'], ['baz']
+        ];
+        $this->assertEquals(['foo', 'bar', 'baz'], ArrayHelper::values($array));
+
+        $array = [
+            'foo' => 'bar',
+            ['baz']
+        ];
+        $this->assertEquals(['bar', 'baz'], ArrayHelper::values($array));
+    }
 }
