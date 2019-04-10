@@ -598,6 +598,7 @@ $array = [
         'identifier' => 'vodka medved balalayka'
     ]
 ];
+ArrayHelper::values($array);
 // result:
 ['Dmitry R', 'Russia', 'PHP', 'JS', 'vodka medved balalayka'];
 ```
