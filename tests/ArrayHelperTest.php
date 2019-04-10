@@ -653,4 +653,144 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals($expected, $array);
     }
+
+    public function testCollapse()
+    {
+        $this->assertEquals([1, 2, 3, 4, 5, 6], ArrayHelper::collapse([[1, 2, 3], [4, 5, 6]]));
+        $this->assertEquals([1, 2, 3, 4, 5, 6], ArrayHelper::collapse([1, 2, 3, [4], [5, 6]]));
+        $this->assertEquals([1, 2, 3], ArrayHelper::collapse([1, 2, 3]));
+        $this->assertEquals([1, 2, 3], ArrayHelper::collapse([[1], [2], [3]]));
+    }
+
+    public function testFlat()
+    {
+        $array = [
+            'name' => 'Dmitry R',
+            'country' => 'Russia',
+            'skills' => ['PHP', 'JS'],
+            [
+                'identifier' => 'vodka medved balalayka'
+            ]
+        ];
+        $this->assertEquals(['Dmitry R', 'Russia', 'PHP', 'JS', 'vodka medved balalayka'], ArrayHelper::values($array));
+
+        $array = [
+            ['foo'], ['bar'], ['baz']
+        ];
+        $this->assertEquals(['foo', 'bar', 'baz'], ArrayHelper::values($array));
+
+        $array = [
+            'foo' => 'bar',
+            ['baz']
+        ];
+        $this->assertEquals(['bar', 'baz'], ArrayHelper::values($array));
+    }
+
+    public function testSum()
+    {
+        $array = [
+            [
+                'name' => 'entity1',
+                'total' => 5
+            ],
+            [
+                'name' => 'entity2',
+                'total' => 6
+            ]
+        ];
+        $this->assertEquals(11, ArrayHelper::sum($array, 'total'));
+
+        $this->assertEquals(5, ArrayHelper::sum(['total' => 5], 'total'));
+    }
+
+    public function testMap()
+    {
+        $expected = ArrayHelper::map([1, 2, 3], function($item) {
+            return $item * 2;
+        });
+        $this->assertEquals([2, 4, 6], $expected);
+    }
+
+    public function testRemove()
+    {
+        $array = [
+            'foo' => 'bar'
+        ];
+        ArrayHelper::remove($array, 'foo');
+        $this->assertEquals([], $array);
+
+        $array = [
+            'foo' => [
+                'bar' => 'baz'
+            ],
+            'foo1' => 123
+        ];
+        ArrayHelper::remove($array, 'foo.bar');
+        $this->assertEquals(['foo' => [], 'foo1' => 123], $array);
+
+        $array = [
+            'foo' => [
+                'bar' => 'baz'
+            ],
+            'foo1' => 123
+        ];
+        ArrayHelper::remove($array, 'foo');
+        $this->assertEquals(['foo1' => 123], $array);
+
+        $array = [
+            [
+                'foo' => 'bar',
+                'test' => 'test1'
+            ],
+            [
+                'foo' => 'bar',
+                'test' => 'test2'
+            ]
+        ];
+        $expected = [
+            ['test' => 'test1'],
+            ['test' => 'test2']
+        ];
+        ArrayHelper::remove($array, 'foo');
+        $this->assertEquals($expected, $array);
+
+        $array = [
+            [
+                'foo' => [
+                    'bar' => [
+                        'baz' => 1
+                    ]
+                ],
+                'test' => 'test',
+                'test2' => '123',
+                'only' => true
+            ],
+            [
+                'foo' => [
+                    'bar' => [
+                        'baz' => 2
+                    ]
+                ],
+                'test' => 'test',
+                'test2' => 123
+            ]
+        ];
+
+        ArrayHelper::remove($array, ['foo.bar.baz', 'test', 'only']);
+        $expected = [
+            [
+                'foo' => [
+                    'bar' => []
+                ],
+                'test2' => '123'
+            ],
+            [
+                'foo' => [
+                    'bar' => []
+                ],
+                'test2' => 123
+            ]
+        ];
+        $this->assertEquals($expected, $array);
+    }
 }

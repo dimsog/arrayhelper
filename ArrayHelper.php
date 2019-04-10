@@ -609,7 +609,7 @@ class ArrayHelper
      *      'id' => 1,
      *      'name' => 'Dmitry R'
      * ];
-     * ArrayHelper::insertColumn($array, 'country', 'Russia');
+     * ArrayHelper::insert($array, 'country', 'Russia');
      * ->
      * [
      *      'id' => 1,
@@ -627,7 +627,7 @@ class ArrayHelper
      *          'name' => 'Dmitry R'
      *      ]
      * ];
-     * ArrayHelper::insertColumn($array, 'foo', 'bar');
+     * ArrayHelper::insert($array, 'foo', 'bar');
      * ->
      * [
      *      [
@@ -773,5 +773,200 @@ class ArrayHelper
             $newArray[$item[$keyField]] = $item[$valueField];
         }
         return $newArray;
+    }
+
+    /**
+     * Collapse an array of arrays into a single array
+     *
+     * ```php
+     * $result = ArrayHelper::collapse([[1, 2, 3], [4, 5, 6]]);
+     * // result: [1, 2, 3, 4, 5, 6]
+     * ```
+     *
+     * ```php
+     * $result = ArrayHelper::collapse([1, 2, 3, [4], [5, 6]]);
+     * // result: [1, 2, 3, 4, 5, 6]
+     * ```
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function collapse(array $array)
+    {
+        return array_reduce($array, function($prev, $item) {
+            if (is_array($item) == false) {
+                $item = [$item];
+            }
+            return array_merge($prev, $item);
+        }, []);
+    }
+
+    /**
+     * Flattens a multidimensional array into an single (flat) array
+     *
+     * ```php
+     * $array = [
+     *   'name' => 'Dmitry R',
+     *   'country' => 'Russia',
+     *   'skills' => ['PHP', 'JS'],
+     *      [
+     *          'identifier' => 'vodka medved balalayka'
+     *      ]
+     * ];
+     * $result = ArrayHelper::values($array);
+     * result: ['Dmitry R', 'Russia', 'PHP', 'JS', 'vodka medved balalayka']
+     * ```
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function values(array $array)
+    {
+        $result = [];
+        foreach ($array as $value) {
+            if (is_array($value) == false) {
+                $result[] = $value;
+            } elseif (static::isMulti($value)) {
+                $result = array_merge($result, static::values($value));
+            } else {
+                $result = array_merge($result, array_values($value));
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Calculate the sum of values in an array with a specific key
+     * $array = [
+     *  [
+     *      'name' => 'entity1',
+     *      'total' => 5
+     *  ],
+     *  [
+     *      'name' => 'entity2',
+     *      'total' => 6
+     *  ]
+     * ];
+     *
+     * $result = ArrayHelper::sum($array, 'total');
+     * result: 11
+     *
+     * @param array $array
+     * @param $key
+     * @return int|mixed
+     */
+    public static function sum(array $array, $key)
+    {
+        $result = 0;
+        if (static::isMulti($array, true) == false) {
+            $array = [$array];
+        }
+        foreach ($array as $item) {
+            if (is_array($item) == false) {
+                $item = [$item];
+            }
+            if (array_key_exists($key, $item)) {
+                $result += $item[$key];
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Applies the callback to the elements of the given array
+     *
+     * ```php
+     * ArrayHelper::map($array, function($item) {
+     *      return $item;
+     * });
+     * ```
+     *
+     * @see https://www.php.net/manual/en/function.array-map.php
+     * @param $array
+     * @param \Closure $callback
+     * @return array
+     */
+    public static function map(array $array, \Closure $callback)
+    {
+        return array_map($callback, $array);
+    }
+
+    /**
+     * Removes a given key (or keys) from an array using dot notation
+     *
+     * ```php
+     * $array = [
+     *      'foo' => [
+     *          'bar' => 'baz'
+     *      ],
+     *      'foo1' => 123
+     * ];
+     * ArrayHelper::remove($array, 'foo.bar');
+     * result:
+     * [
+     *      'foo' => [],
+     *      'foo1' => 123
+     * ]
+     *
+     * ```
+     *
+     * With a multidimensional array:
+     * ```php
+     * $array = [
+     * [
+     *      'foo' => [
+     *          'bar' => [
+     *              'baz' => 1
+     *          ]
+     *      ],
+     *      'test' => 'test',
+     *      'test2' => '123',
+     *      'only' => true
+     * ],
+     * [
+     *      'foo' => [
+     *          'bar' => [
+     *              'baz' => 1
+     *          ]
+     *      ],
+     *      'test' => 'test',
+     *      'test2' => 123
+     * ]
+     * ];
+     * ArrayHelper::remove($array, ['foo.bar.baz', 'test', 'only']);
+     * ```
+     *
+     *
+     * @param array $array
+     * @param $keys
+     */
+    public static function remove(array &$array, $keys)
+    {
+        if (is_array($keys) == false) {
+            $keys = (array) $keys;
+        }
+        if (empty($keys)) {
+            return;
+        }
+        if (static::isMulti($array, true)) {
+            foreach ($array as &$item) {
+                static::remove($item, $keys);
+            }
+            unset($item);
+        }
+        foreach ($keys as $key) {
+            $parts = explode('.', $key);
+            while (empty($parts) == false) {
+                $part = array_shift($parts);
+                if (array_key_exists($part, $array) == false) {
+                    break;
+                }
+                if (empty($parts)) {
+                    unset($array[$part]);
+                } else {
+                    static::remove($array[$part], implode('.', $parts));
+                }
+            }
+        }
     }
 }

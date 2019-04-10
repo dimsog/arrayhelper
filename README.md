@@ -17,8 +17,35 @@ composer require dimsog/arrayhelper
 ```
 Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 
+# Fluent interface
+```php
+ArrayHelper::fluent($sourceArray)
+    ->toInt(['id', 'parent_id'])
+    ->except(['some_field'])
+    ->filter(['user_id' => 100])
+    ->get();
+
+// or
+
+Arr::fluent([[1], [2], [3]])
+    ->collapse()
+    ->map(function($item) {
+        return $item * 2;
+    })
+    ->get();
+```
+
+# Short code
+You can use Arr instead ArrayHelper.
+```php
+ArrayHelper::collapse([[1, 2, 3], [4, 5, 6]]);
+// or
+Arr::collapse([[1, 2, 3], [4, 5, 6]]);
+```
+
 # Available methods
 * [camelCaseKeys](#camel-case-keys)
+* [collapse](#collapse)
 * [column](#column)
 * [except](#except)
 * [filter](#filter)
@@ -27,24 +54,19 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [isAssoc](#isassoc)
 * [isMulti](#ismulti)
 * [keyValue](#keyvalue)
+* [map](#map)
 * [only](#only)
 * [paginate](#paginate)
 * [random](#random)
 * [reindex](#reindex)
+* [remove](#remove)
 * [replaceKey](#replace-key)
 * [shuffle](#shuffle-an-array)
 * [splitString](#split-string)
+* [sum](#sum)
 * [toArray](#to-array)
 * [toInt](#toint)
-
-# Fluent interface
-```php
-ArrayHelper::fluent($sourceArray)
-    ->toInt(['id', 'parent_id'])
-    ->except(['some_field'])
-    ->filter(['user_id' => 100])
-    ->get();
-```
+* [values](#values)
 
 # Code examples
 
@@ -63,6 +85,20 @@ $data = ArrayHelper::camelCaseKeys([
 [
      'demoField' => 100
 ]
+```
+
+### Collapse
+Collapse an array of arrays into a single array
+```php
+ArrayHelper::collapse(array $array)
+```
+##### Demo:
+```php
+$result = ArrayHelper::collapse([[1, 2, 3], [4, 5, 6]]);
+result: [1, 2, 3, 4, 5, 6]
+
+$result = ArrayHelper::collapse([1, 2, 3, [4], [5, 6]]);
+result: [1, 2, 3, 4, 5, 6]
 ```
 
 ### Column
@@ -238,7 +274,6 @@ Convert a multidimensional array to key-value array
 ```php
 ArrayHelper::keyValue(array $items, $keyField = 'key', $valueField = 'value')
 ```
-
 ##### Demo:
 ```php
 $array = [
@@ -264,6 +299,20 @@ result:
     'country' => 'Russia',
     'city' => 'Oryol (eagle)'
 ];
+```
+
+### Map
+Applies the callback to the elements of the given array
+
+```php
+ArrayHelper::map($array, \Closure $callback)
+```
+
+##### Demo:
+```php
+ArrayHelper::map($array, function($item) {
+    return $item;
+});
 ```
 
 ### Only
@@ -381,6 +430,93 @@ ArrayHelper::reindex($array);
 result: [10, 20]
 ```
 
+### Remove
+Removes a given key (or keys) from an array using dot notation
+```php
+ArrayHelper::remove(array &$array, $keys)
+```
+
+##### Demo:
+Simple example 1:
+```php
+$array = [
+    'foo' => [
+        'bar' => 'baz'
+    ],
+    'foo1' => 123
+];
+ArrayHelper::remove($array, 'foo.bar');
+
+// result:
+[
+    'foo' => [],
+    'foo1' => 123
+]
+```
+
+Simple example 2:
+```php
+$array = [
+    [
+        'foo' => 'bar',
+        'test' => 'test1'
+    ],
+    [
+        'foo' => 'bar',
+        'test' => 'test2'
+    ]
+];
+ArrayHelper::remove($array, 'foo');
+
+// result:
+[
+    ['test' => 'test1'],
+    ['test' => 'test2']
+]
+```
+
+Advanced example:
+```php
+$array = [
+    [
+        'foo' => [
+            'bar' => [
+                'baz' => 1
+            ]
+        ],
+        'test' => 'test',
+        'test2' => '123',
+        'only' => true
+    ],
+    [
+        'foo' => [
+            'bar' => [
+                'baz' => 2
+            ]
+        ],
+        'test' => 'test',
+        'test2' => 123
+    ]
+];
+
+ArrayHelper::remove($array, ['foo.bar.baz', 'test', 'only']);
+// result:
+[
+    [
+        'foo' => [
+            'bar' => []
+        ],
+        'test2' => '123'
+    ],
+    [
+        'foo' => [
+            'bar' => []
+        ],
+        'test2' => 123
+    ]
+]
+```
+
 ### Replace key
 Replace the key from an array.
 ```php
@@ -420,6 +556,26 @@ ArrayHelper::splitString($str)
 $string = 'Ab Cd';
 ArrayHelper::splitString($string);
 result: ['A', 'b', ' ', 'C', 'd']
+```
+
+### Sum
+Calculate the sum of values in an array with a specific key
+```php
+ArrayHelper::sum(array $array, $key)
+```
+```php
+$array = [
+    [
+        'name' => 'entity1',
+        'total' => 5
+    ],
+    [
+        'name' => 'entity2',
+        'total' => 6
+    ]
+];
+$result = ArrayHelper::sum($array, 'total');
+// result: 11
 ```
 
 ### To array
@@ -536,4 +692,24 @@ $source = [
     ]
 ];
 ArrayHelper::toInt($source, ['id', 'created_at', 'other']);
+```
+
+### Values
+Flattens a multidimensional array into an single (flat) array
+```php
+ArrayHelper::values(array $array)
+```
+##### Demo:
+```php
+$array = [
+    'name' => 'Dmitry R',
+    'country' => 'Russia',
+    'skills' => ['PHP', 'JS'],
+    [
+        'identifier' => 'vodka medved balalayka'
+    ]
+];
+ArrayHelper::values($array);
+// result:
+['Dmitry R', 'Russia', 'PHP', 'JS', 'vodka medved balalayka'];
 ```

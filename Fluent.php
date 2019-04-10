@@ -191,6 +191,48 @@ class Fluent
     }
 
     /**
+     * @see ArrayHelper::collapse()
+     * @return $this
+     */
+    public function collapse()
+    {
+        $this->array = ArrayHelper::collapse($this->array);
+        return $this;
+    }
+
+    /**
+     * @see ArrayHelper::values()
+     * @return $this
+     */
+    public function values()
+    {
+        $this->array = ArrayHelper::values($this->array);
+        return $this;
+    }
+
+    /**
+     * @see ArrayHelper::sum()
+     * @param $key
+     * @return int|mixed
+     */
+    public function sum($key)
+    {
+        return ArrayHelper::sum($this->array, $key);
+    }
+
+    public function map(\Closure $callback)
+    {
+        $this->array = ArrayHelper::map($this->array, $callback);
+        return $this;
+    }
+
+    public function remove($keys)
+    {
+        ArrayHelper::remove($this->array, $keys);
+        return $this;
+    }
+
+    /**
      * Return a result array
      * @return array
      */
