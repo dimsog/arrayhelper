@@ -35,6 +35,7 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [replaceKey](#replace-key)
 * [shuffle](#shuffle-an-array)
 * [splitString](#split-string)
+* [sum](#sum)
 * [toArray](#to-array)
 * [toInt](#toint)
 * [values](#values)
@@ -444,6 +445,26 @@ ArrayHelper::splitString($str)
 $string = 'Ab Cd';
 ArrayHelper::splitString($string);
 result: ['A', 'b', ' ', 'C', 'd']
+```
+
+### Sum
+Calculate the sum of values in an array with a specific key
+```php
+ArrayHelper::sum(array $array, $key)
+```
+```php
+$array = [
+    [
+        'name' => 'entity1',
+        'total' => 5
+    ],
+    [
+        'name' => 'entity2',
+        'total' => 6
+    ]
+];
+$result = ArrayHelper::sum($array, 'total');
+// result: 11
 ```
 
 ### To array

@@ -685,4 +685,21 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals(['bar', 'baz'], ArrayHelper::values($array));
     }
+
+    public function testSum()
+    {
+        $array = [
+            [
+                'name' => 'entity1',
+                'total' => 5
+            ],
+            [
+                'name' => 'entity2',
+                'total' => 6
+            ]
+        ];
+        $this->assertEquals(11, ArrayHelper::sum($array, 'total'));
+
+        $this->assertEquals(5, ArrayHelper::sum(['total' => 5], 'total'));
+    }
 }

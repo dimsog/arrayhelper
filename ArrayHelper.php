@@ -834,4 +834,41 @@ class ArrayHelper
         }
         return $result;
     }
+
+    /**
+     * Calculate the sum of values in an array with a specific key
+     * $array = [
+     *  [
+     *      'name' => 'entity1',
+     *      'total' => 5
+     *  ],
+     *  [
+     *      'name' => 'entity2',
+     *      'total' => 6
+     *  ]
+     * ];
+     *
+     * $result = ArrayHelper::sum($array, 'total');
+     * result: 11
+     *
+     * @param array $array
+     * @param $key
+     * @return int|mixed
+     */
+    public static function sum(array $array, $key)
+    {
+        $result = 0;
+        if (static::isMulti($array, true) == false) {
+            $array = [$array];
+        }
+        foreach ($array as $item) {
+            if (is_array($item) == false) {
+                $item = [$item];
+            }
+            if (array_key_exists($key, $item)) {
+                $result += $item[$key];
+            }
+        }
+        return $result;
+    }
 }

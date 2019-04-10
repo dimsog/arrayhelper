@@ -211,6 +211,16 @@ class Fluent
     }
 
     /**
+     * @see ArrayHelper::sum()
+     * @param $key
+     * @return int|mixed
+     */
+    public function sum($key)
+    {
+        return ArrayHelper::sum($this->array, $key);
+    }
+
+    /**
      * Return a result array
      * @return array
      */
