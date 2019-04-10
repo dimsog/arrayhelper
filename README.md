@@ -17,6 +17,32 @@ composer require dimsog/arrayhelper
 ```
 Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 
+# Fluent interface
+```php
+ArrayHelper::fluent($sourceArray)
+    ->toInt(['id', 'parent_id'])
+    ->except(['some_field'])
+    ->filter(['user_id' => 100])
+    ->get();
+
+// or
+
+Arr::fluent([[1], [2], [3]])
+    ->collapse()
+    ->map(function($item) {
+        return $item * 2;
+    })
+    ->get();
+```
+
+# Short code
+You can use Arr instead ArrayHelper.
+```php
+ArrayHelper::collapse([[1, 2, 3], [4, 5, 6]]);
+// or
+Arr::collapse([[1, 2, 3], [4, 5, 6]]);
+```
+
 # Available methods
 * [camelCaseKeys](#camel-case-keys)
 * [collapse](#collapse)
@@ -33,6 +59,7 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [paginate](#paginate)
 * [random](#random)
 * [reindex](#reindex)
+* [remove](#remove)
 * [replaceKey](#replace-key)
 * [shuffle](#shuffle-an-array)
 * [splitString](#split-string)
@@ -40,32 +67,6 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [toArray](#to-array)
 * [toInt](#toint)
 * [values](#values)
-
-# Fluent interface
-```php
-ArrayHelper::fluent($sourceArray)
-    ->toInt(['id', 'parent_id'])
-    ->except(['some_field'])
-    ->filter(['user_id' => 100])
-    ->get();
-    
-// or
-    
-Arr::fluent([[1], [2], [3]])
-    ->collapse()
-    ->map(function($item) {
-        return $item * 2;
-    })
-    ->get();
-```
-
-# Short code
-You can use Arr instead ArrayHelper.
-```php
-Arr::collapse([[1, 2, 3], [4, 5, 6]]);
-// or
-ArrayHelper::collapse([[1, 2, 3], [4, 5, 6]]);
-```
 
 # Code examples
 
