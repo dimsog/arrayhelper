@@ -609,7 +609,7 @@ class ArrayHelper
      *      'id' => 1,
      *      'name' => 'Dmitry R'
      * ];
-     * ArrayHelper::insertColumn($array, 'country', 'Russia');
+     * ArrayHelper::insert($array, 'country', 'Russia');
      * ->
      * [
      *      'id' => 1,
@@ -627,7 +627,7 @@ class ArrayHelper
      *          'name' => 'Dmitry R'
      *      ]
      * ];
-     * ArrayHelper::insertColumn($array, 'foo', 'bar');
+     * ArrayHelper::insert($array, 'foo', 'bar');
      * ->
      * [
      *      [
