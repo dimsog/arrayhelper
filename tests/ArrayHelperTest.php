@@ -653,4 +653,12 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals($expected, $array);
     }
+
+    public function testCollapse()
+    {
+        $this->assertEquals([1, 2, 3, 4, 5, 6], ArrayHelper::collapse([[1, 2, 3], [4, 5, 6]]));
+        $this->assertEquals([1, 2, 3, 4, 5, 6], ArrayHelper::collapse([1, 2, 3, [4], [5, 6]]));
+        $this->assertEquals([1, 2, 3], ArrayHelper::collapse([1, 2, 3]));
+        $this->assertEquals([1, 2, 3], ArrayHelper::collapse([[1], [2], [3]]));
+    }
 }

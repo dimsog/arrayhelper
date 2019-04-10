@@ -774,4 +774,30 @@ class ArrayHelper
         }
         return $newArray;
     }
+
+    /**
+     * Collapse an array of arrays into a single array
+     *
+     * ```php
+     * $result = ArrayHelper::collapse([[1, 2, 3], [4, 5, 6]]);
+     * // result: [1, 2, 3, 4, 5, 6]
+     * ```
+     *
+     * ```php
+     * $result = ArrayHelper::collapse([1, 2, 3, [4], [5, 6]]);
+     * // result: [1, 2, 3, 4, 5, 6]
+     * ```
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function collapse(array $array)
+    {
+        return array_reduce($array, function($prev, $item) {
+            if (is_array($item) == false) {
+                $item = [$item];
+            }
+            return array_merge($prev, $item);
+        }, []);
+    }
 }

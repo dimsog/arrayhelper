@@ -191,6 +191,16 @@ class Fluent
     }
 
     /**
+     * @see ArrayHelper::collapse()
+     * @return $this
+     */
+    public function collapse()
+    {
+        $this->array = ArrayHelper::collapse($this->array);
+        return $this;
+    }
+
+    /**
      * Return a result array
      * @return array
      */

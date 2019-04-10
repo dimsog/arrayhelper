@@ -19,6 +19,7 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 
 # Available methods
 * [camelCaseKeys](#camel-case-keys)
+* [collapse](#collapse)
 * [column](#column)
 * [except](#except)
 * [filter](#filter)
@@ -63,6 +64,20 @@ $data = ArrayHelper::camelCaseKeys([
 [
      'demoField' => 100
 ]
+```
+
+### Collapse
+Collapse an array of arrays into a single array
+```php
+ArrayHelper::collapse(array $array)
+```
+##### Demo:
+```php
+$result = ArrayHelper::collapse([[1, 2, 3], [4, 5, 6]]);
+result: [1, 2, 3, 4, 5, 6]
+
+$result = ArrayHelper::collapse([1, 2, 3, [4], [5, 6]]);
+result: [1, 2, 3, 4, 5, 6]
 ```
 
 ### Column
