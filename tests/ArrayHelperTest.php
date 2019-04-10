@@ -702,4 +702,12 @@ class ArrayHelperTest extends TestCase
 
         $this->assertEquals(5, ArrayHelper::sum(['total' => 5], 'total'));
     }
+
+    public function testMap()
+    {
+        $expected = ArrayHelper::map([1, 2, 3], function($item) {
+            return $item * 2;
+        });
+        $this->assertEquals([2, 4, 6], $expected);
+    }
 }

@@ -35,5 +35,14 @@ class FluentTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->assertEquals($except, $result);
+
+        $expected = ArrayHelper::fluent([[1], [2], [3]])
+            ->collapse()
+            ->map(function($item) {
+                return $item * 2;
+            })
+            ->get();
+
+        $this->assertEquals([2, 4, 6], $expected);
     }
 }

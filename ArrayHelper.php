@@ -871,4 +871,23 @@ class ArrayHelper
         }
         return $result;
     }
+
+    /**
+     * Applies the callback to the elements of the given array
+     *
+     * ```php
+     * ArrayHelper::map($array, function($item) {
+     *      return $item;
+     * });
+     * ```
+     *
+     * @see https://www.php.net/manual/en/function.array-map.php
+     * @param $array
+     * @param \Closure $callback
+     * @return array
+     */
+    public static function map($array, \Closure $callback)
+    {
+        return array_map($callback, $array);
+    }
 }

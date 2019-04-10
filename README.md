@@ -28,6 +28,7 @@ Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 * [isAssoc](#isassoc)
 * [isMulti](#ismulti)
 * [keyValue](#keyvalue)
+* [map](#map)
 * [only](#only)
 * [paginate](#paginate)
 * [random](#random)
@@ -46,6 +47,15 @@ ArrayHelper::fluent($sourceArray)
     ->toInt(['id', 'parent_id'])
     ->except(['some_field'])
     ->filter(['user_id' => 100])
+    ->get();
+    
+// or
+    
+Arr::fluent([[1], [2], [3]])
+    ->collapse()
+    ->map(function($item) {
+        return $item * 2;
+    })
     ->get();
 ```
 
@@ -263,7 +273,6 @@ Convert a multidimensional array to key-value array
 ```php
 ArrayHelper::keyValue(array $items, $keyField = 'key', $valueField = 'value')
 ```
-
 ##### Demo:
 ```php
 $array = [
@@ -289,6 +298,20 @@ result:
     'country' => 'Russia',
     'city' => 'Oryol (eagle)'
 ];
+```
+
+### Map
+Applies the callback to the elements of the given array
+
+```php
+ArrayHelper::map($array, \Closure $callback)
+```
+
+##### Demo:
+```php
+ArrayHelper::map($array, function($item) {
+    return $item;
+});
 ```
 
 ### Only

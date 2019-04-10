@@ -220,6 +220,12 @@ class Fluent
         return ArrayHelper::sum($this->array, $key);
     }
 
+    public function map(\Closure $callback)
+    {
+        $this->array = ArrayHelper::map($this->array, $callback);
+        return $this;
+    }
+
     /**
      * Return a result array
      * @return array
