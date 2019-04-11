@@ -969,4 +969,49 @@ class ArrayHelper
             }
         }
     }
+
+    /**
+     * This method checks a given key exist in an array.
+     * You may use dot notation.
+     *
+     * ```php
+     * $array = [
+     *      'foo' => [
+     *          'bar' => 10
+     *      ]
+     * ];
+     * ArrayHelper::has($array, 'foo.bar')
+     * // true
+     * ```
+     *
+     * ```php
+     * $array = [
+     *      'foo' => [
+     *          'bar' => [0, 1, 2, 'a']
+     *      ]
+     * ];
+     * ArrayHelper::has($array, 'foo.bar.1')
+     * // true
+     * ```
+     *
+     * @param array $array
+     * @param $key
+     * @return bool
+     */
+    public static function has(array $array, $key)
+    {
+        $keys = explode('.', $key);
+        foreach ($keys as $part) {
+            if (is_array($array) == false) {
+                return false;
+            }
+            if (array_key_exists($part, $array) == false) {
+                return false;
+            }
+            if (count($keys) > 1) {
+                $array = $array[$part];
+            }
+        }
+        return true;
+    }
 }

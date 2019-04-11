@@ -793,4 +793,37 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals($expected, $array);
     }
+
+    public function testHas()
+    {
+        $array = [
+            'foo' => 'bar'
+        ];
+        $this->assertTrue(ArrayHelper::has($array, 'foo'));
+
+        $array = [
+            'foo' => [
+                'bar' => 10
+            ]
+        ];
+        $this->assertTrue(ArrayHelper::has($array, 'foo.bar'));
+        $this->assertFalse(ArrayHelper::has($array, 'foo.bar1'));
+
+        $array = [
+            'foo' => [
+                'bar' => [0, 1, 2, 'a']
+            ]
+        ];
+        $this->assertTrue(ArrayHelper::has($array, 'foo.bar.0'));
+        $this->assertTrue(ArrayHelper::has($array, 'foo.bar.1'));
+        $this->assertTrue(ArrayHelper::has($array, 'foo.bar.2'));
+        $this->assertTrue(ArrayHelper::has($array, 'foo.bar.3'));
+        $this->assertFalse(ArrayHelper::has($array, 'foo.bar.4'));
+
+        $array = [
+            ['a'], ['b'], ['c']
+        ];
+        $this->assertTrue(ArrayHelper::has($array, 1));
+        $this->assertFalse(ArrayHelper::has($array, 'foo.bar.baz.5'));
+    }
 }

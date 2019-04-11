@@ -50,6 +50,7 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [except](#except)
 * [filter](#filter)
 * [getValue](#get-value)
+* [has](#has)
 * [insert](#insert)
 * [isAssoc](#isassoc)
 * [isMulti](#ismulti)
@@ -239,6 +240,31 @@ $user = [
     ]
 ]
 ArrayHelper::getValue($user, 'photo.big');
+```
+
+### has
+This method checks a given key exist in an array. You may use dot notation.
+```php
+ArrayHelper::has(array $array, $key)
+```
+##### Demo:
+```php
+$array = [
+    'foo' => [
+        'bar' => 10
+    ]
+];
+ArrayHelper::has($array, 'foo.bar')
+// true
+```
+```php
+$array = [
+    'foo' => [
+        'bar' => [0, 1, 2, 'a']
+    ]
+];
+ArrayHelper::has($array, 'foo.bar.1')
+// true
 ```
 
 ### isAssoc
