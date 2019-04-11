@@ -826,4 +826,69 @@ class ArrayHelperTest extends TestCase
         $this->assertTrue(ArrayHelper::has($array, 1));
         $this->assertFalse(ArrayHelper::has($array, 'foo.bar.baz.5'));
     }
+
+    public function testSet()
+    {
+        $array = [];
+        ArrayHelper::set($array, 'foo.bar', 123);
+        $expected = [
+            'foo' => [
+                'bar' => 123
+            ]
+        ];
+        $this->assertEquals($expected, $array);
+
+        $array = [
+            'product' => [
+                'name' => 'Some name',
+                'price' => 500
+            ]
+        ];
+        ArrayHelper::set($array, 'product.price', 600);
+        $expected = [
+            'product' => [
+                'name' => 'Some name',
+                'price' => 600
+            ]
+        ];
+        $this->assertEquals($expected, $array);
+
+        $array = [
+            [
+                'name' => 'Some product 1',
+                'price' => 600
+            ],
+            [
+                'name' => 'Some product 2',
+                'price' => 500
+            ]
+        ];
+
+        ArrayHelper::set($array, 'price', 700);
+        $expected = [
+            [
+                'name' => 'Some product 1',
+                'price' => 700
+            ],
+            [
+                'name' => 'Some product 2',
+                'price' => 700
+            ]
+        ];
+        $this->assertEquals($array, $expected);
+        ArrayHelper::set($array, 'total', 5);
+        $expected = [
+            [
+                'name' => 'Some product 1',
+                'price' => 700,
+                'total' => 5
+            ],
+            [
+                'name' => 'Some product 2',
+                'price' => 700,
+                'total' => 5
+            ]
+        ];
+        $this->assertEquals($array, $expected);
+    }
 }

@@ -62,6 +62,7 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [reindex](#reindex)
 * [remove](#remove)
 * [replaceKey](#replace-key)
+* [set](#set)
 * [shuffle](#shuffle-an-array)
 * [splitString](#split-string)
 * [sum](#sum)
@@ -561,6 +562,23 @@ ArrayHelper::replaceKey('foo', 'baz', $array);
      'baz' => 'bar'
 ]
 ```
+
+### Set
+Set a value into an array using "dot" notation
+```php
+ArrayHelper::set(array &$array, $key, $value)
+```
+##### Demo:
+```php
+$array = [
+    'product' => [
+        'name' => 'Some name',
+        'price' => 500
+    ]
+];
+ArrayHelper::set($array, 'product.price', 600);
+```
+
 
 ### Shuffle an array
 ```php

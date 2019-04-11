@@ -1014,4 +1014,49 @@ class ArrayHelper
         }
         return true;
     }
+
+    /**
+     * Set a value into an array using "dot" notation
+     *
+     * ```php
+     * $array = [
+     *      'product' => [
+     *          'name' => 'Some name',
+     *          'price' => 500
+     *      ]
+     * ];
+     * ArrayHelper::set($array, 'product.price', 600);
+     * ```
+     *
+     * @param array $array
+     * @param $key
+     * @param $value
+     */
+    public static function set(array &$array, $key, $value)
+    {
+        if (empty($array) == false && static::isMulti($array, true)) {
+            foreach ($array as &$item) {
+                static::set($item, $key, $value);
+            }
+            unset($item);
+            return;
+        }
+
+        $keys = explode('.', $key);
+        if (empty($keys)) {
+            return;
+        }
+        if (count($keys) == 1) {
+            $array[$key] = $value;
+            return;
+        }
+        $lastKey = array_pop($keys);
+        foreach ($keys as $part) {
+            if (array_key_exists($part, $array) == false || is_array($array[$part]) == false) {
+                $array[$part] = [];
+            }
+            $array = &$array[$part];
+        }
+        $array[$lastKey] = $value;
+    }
 }
