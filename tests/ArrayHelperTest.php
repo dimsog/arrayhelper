@@ -793,4 +793,102 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals($expected, $array);
     }
+
+    public function testHas()
+    {
+        $array = [
+            'foo' => 'bar'
+        ];
+        $this->assertTrue(ArrayHelper::has($array, 'foo'));
+
+        $array = [
+            'foo' => [
+                'bar' => 10
+            ]
+        ];
+        $this->assertTrue(ArrayHelper::has($array, 'foo.bar'));
+        $this->assertFalse(ArrayHelper::has($array, 'foo.bar1'));
+
+        $array = [
+            'foo' => [
+                'bar' => [0, 1, 2, 'a']
+            ]
+        ];
+        $this->assertTrue(ArrayHelper::has($array, 'foo.bar.0'));
+        $this->assertTrue(ArrayHelper::has($array, 'foo.bar.1'));
+        $this->assertTrue(ArrayHelper::has($array, 'foo.bar.2'));
+        $this->assertTrue(ArrayHelper::has($array, 'foo.bar.3'));
+        $this->assertFalse(ArrayHelper::has($array, 'foo.bar.4'));
+
+        $array = [
+            ['a'], ['b'], ['c']
+        ];
+        $this->assertTrue(ArrayHelper::has($array, 1));
+        $this->assertFalse(ArrayHelper::has($array, 'foo.bar.baz.5'));
+    }
+
+    public function testSet()
+    {
+        $array = [];
+        ArrayHelper::set($array, 'foo.bar', 123);
+        $expected = [
+            'foo' => [
+                'bar' => 123
+            ]
+        ];
+        $this->assertEquals($expected, $array);
+
+        $array = [
+            'product' => [
+                'name' => 'Some name',
+                'price' => 500
+            ]
+        ];
+        ArrayHelper::set($array, 'product.price', 600);
+        $expected = [
+            'product' => [
+                'name' => 'Some name',
+                'price' => 600
+            ]
+        ];
+        $this->assertEquals($expected, $array);
+
+        $array = [
+            [
+                'name' => 'Some product 1',
+                'price' => 600
+            ],
+            [
+                'name' => 'Some product 2',
+                'price' => 500
+            ]
+        ];
+
+        ArrayHelper::set($array, 'price', 700);
+        $expected = [
+            [
+                'name' => 'Some product 1',
+                'price' => 700
+            ],
+            [
+                'name' => 'Some product 2',
+                'price' => 700
+            ]
+        ];
+        $this->assertEquals($array, $expected);
+        ArrayHelper::set($array, 'total', 5);
+        $expected = [
+            [
+                'name' => 'Some product 1',
+                'price' => 700,
+                'total' => 5
+            ],
+            [
+                'name' => 'Some product 2',
+                'price' => 700,
+                'total' => 5
+            ]
+        ];
+        $this->assertEquals($array, $expected);
+    }
 }

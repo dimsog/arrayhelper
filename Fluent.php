@@ -233,6 +233,28 @@ class Fluent
     }
 
     /**
+     * @see ArrayHelper::has()
+     * @param $key
+     * @return bool
+     */
+    public function has($key)
+    {
+        return ArrayHelper::has($this->array, $key);
+    }
+
+    /**
+     * @see ArrayHelper::set()
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function set($key, $value)
+    {
+        ArrayHelper::set($this->array, $key, $value);
+        return $this;
+    }
+
+    /**
      * Return a result array
      * @return array
      */
