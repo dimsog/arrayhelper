@@ -1082,87 +1082,37 @@ class ArrayHelper
         $array[$lastKey] = $value;
     }
 
-    public function onlyWithKey(array $array, $key)
+    /**
+     * Get a subset of the items from the given array with key $key
+     * @param array $array
+     * @param $key
+     * @return array
+     */
+    public static function onlyWithKey(array $array, $key)
     {
         return static::filter($array, function($item) use ($key) {
+            if (is_array($item) == false) {
+                return false;
+            }
             return array_key_exists($key, $item);
-        });
+        }, true);
     }
 
-    /**
-     * Get a minimum value from an array
-     * ```php
-     * ArrayHelper::min([1, 2, 3]);
-     * // return 1
-     *
-     * ArrayHelper::min(['a' => 3, 'b' => 4, 'c' => 5]);
-     * // return ['a' => 3]
-     *
-     * $array = [
-     *  [
-     *      'product' => 'Vodka',
-     *      'price' => 400,
-     *      'currency' => 'rub'
-     *  ],
-     *  [
-     *      'product' => 'Balalayka',
-     *      'price' => 20000,
-     *      'currency' => 'rub'
-     *  ]
-     * ];
-     * ArrayHelper::min($array, 'price')
-     * // return
-     * [
-     *      'product' => 'Vodka',
-     *      'price' => 400,
-     *      'currency' => 'rub'
-     * ]
-     * ```
-     *
-     * @param array $array
-     * @param null $key
-     * @return mixed
-     */
-    public static function min(array $array, $key = null)
+    public static function firstKey(array $array)
     {
-        if (empty($array)) {
-            return null;
+        if (function_exists('array_key_first')) {
+            return array_key_first($array);
         }
+        reset($array);
+        return key($array);
+    }
 
-        $isMulti = static::isMulti($array, true);
-        $isAssoc = static::isAssoc($array);
-
-        if ($key === null || ($isMulti === false && $isAssoc === false)) {
-            return min($array);
+    public static function lastKey(array $array)
+    {
+        if (function_exists('array_key_last')) {
+            return array_key_last($array);
         }
-
-        if ($isMulti) {
-            $array = array_filter($array, function ($item) use ($key) {
-                return array_key_exists($key, $item);
-            });
-            if (empty($array)) {
-                return null;
-            }
-
-            $minimalResultItem = $array[0];
-            foreach ($array as $item) {
-                if (array_key_exists($key, $item) == false) {
-                    continue;
-                }
-                if ($item[$key] < $minimalResultItem[$key]) {
-                    $minimalResultItem[$key] = $item;
-                }
-            }
-            return $minimalResultItem;
-        }
-
-        // is assoc
-        $resultKey = array_key_first($array);
-        foreach ($array as $key => $item) {
-            if ($item < $array[$resultKey]) {
-                $resultKey = $key;
-            }
-        }
-        return $array[$resultKey];
+        end($array);
+        return key($array);
     }
 }

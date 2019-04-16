@@ -892,41 +892,54 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals($array, $expected);
     }
 
-    public function testMin()
+    public function testOnlyWithKey()
     {
-        $this->assertEquals(5, ArrayHelper::min([10, 15, 5]));
-        $this->assertEquals(1, ArrayHelper::min(['a' => 5, 'b' => 1, 'c' => 6]));
         $array = [
-            [
-                'product' => 'Vodka',
-                'price' => 400,
-                'currency' => 'rub'
+            'a' => [
+                'a' => 1,
+                'b' => 2
             ],
-            [
-                'product' => 'Balalayka',
-                'price' => 20000,
-                'currency' => 'rub'
+            'b' => [
+                'a' => 1
+            ],
+            1,
+            2,
+            3,
+            'c' => [
+                'a' => 1,
+                'b' => 4
             ]
         ];
-        $this->assertEquals([
-            'product' => 'Vodka',
-            'price' => 400,
-            'currency' => 'rub'
-        ], ArrayHelper::min($array, 'price'));
+        $expected = [
+            'a' => [
+                'a' => 1,
+                'b' => 2
+            ],
+            'c' => [
+                'a' => 1,
+                'b' => 4
+            ]
+        ];
+        $this->assertEquals($expected, ArrayHelper::onlyWithKey($array, 'b'));
+    }
 
+    public function testFirstKey()
+    {
         $array = [
-            'foo' => [
-                'bar' => 5
-            ],
-            'foo2' => [
-                'baz' => 6
-            ],
-            'foo3' => [
-                'bar' => 2
-            ]
+            'a' => 1,
+            'b' => 2,
+            'c' => 3
         ];
-        $this->assertEquals([
-            'bar' => 2
-        ], ArrayHelper::min($array, 'bar'));
+        $this->assertEquals('a', ArrayHelper::firstKey($array));
+    }
+
+    public function testLastKey()
+    {
+        $array = [
+            'a' => 1,
+            'b' => 2,
+            'c' => 3
+        ];
+        $this->assertEquals('c', ArrayHelper::lastKey($array));
     }
 }
