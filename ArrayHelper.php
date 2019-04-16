@@ -3,7 +3,29 @@ namespace dimsog\arrayhelper;
 
 class ArrayHelper
 {
-    public static function fluent(array $array)
+    /**
+     * From array:
+     * ```php
+     * ArrayHelper::fluent($array)
+     *  ->map(function($item) {
+     *      return $item;
+     *  })
+     * ->get();
+     * ```
+     *
+     * From string:
+     * ```php
+     * ArrayHelper::fluent($jsonString)
+     *  ->toArray()
+     *  ->map(function($item) {
+     *
+     *  });
+     * ```
+     *
+     * @param array|mixed $array
+     * @return Fluent
+     */
+    public static function fluent($array)
     {
         return new Fluent($array);
     }

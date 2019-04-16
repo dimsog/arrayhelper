@@ -8,9 +8,9 @@ class Fluent
 
     /**
      * Fluent constructor.
-     * @param array $array
+     * @param mixed $array
      */
-    public function __construct(array $array)
+    public function __construct($array)
     {
         $this->array = $array;
     }
