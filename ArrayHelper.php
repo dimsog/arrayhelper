@@ -1081,4 +1081,88 @@ class ArrayHelper
         }
         $array[$lastKey] = $value;
     }
+
+    public function onlyWithKey(array $array, $key)
+    {
+        return static::filter($array, function($item) use ($key) {
+            return array_key_exists($key, $item);
+        });
+    }
+
+    /**
+     * Get a minimum value from an array
+     * ```php
+     * ArrayHelper::min([1, 2, 3]);
+     * // return 1
+     *
+     * ArrayHelper::min(['a' => 3, 'b' => 4, 'c' => 5]);
+     * // return ['a' => 3]
+     *
+     * $array = [
+     *  [
+     *      'product' => 'Vodka',
+     *      'price' => 400,
+     *      'currency' => 'rub'
+     *  ],
+     *  [
+     *      'product' => 'Balalayka',
+     *      'price' => 20000,
+     *      'currency' => 'rub'
+     *  ]
+     * ];
+     * ArrayHelper::min($array, 'price')
+     * // return
+     * [
+     *      'product' => 'Vodka',
+     *      'price' => 400,
+     *      'currency' => 'rub'
+     * ]
+     * ```
+     *
+     * @param array $array
+     * @param null $key
+     * @return mixed
+     */
+    public static function min(array $array, $key = null)
+    {
+        if (empty($array)) {
+            return null;
+        }
+
+        $isMulti = static::isMulti($array, true);
+        $isAssoc = static::isAssoc($array);
+
+        if ($key === null || ($isMulti === false && $isAssoc === false)) {
+            return min($array);
+        }
+
+        if ($isMulti) {
+            $array = array_filter($array, function ($item) use ($key) {
+                return array_key_exists($key, $item);
+            });
+            if (empty($array)) {
+                return null;
+            }
+
+            $minimalResultItem = $array[0];
+            foreach ($array as $item) {
+                if (array_key_exists($key, $item) == false) {
+                    continue;
+                }
+                if ($item[$key] < $minimalResultItem[$key]) {
+                    $minimalResultItem[$key] = $item;
+                }
+            }
+            return $minimalResultItem;
+        }
+
+        // is assoc
+        $resultKey = array_key_first($array);
+        foreach ($array as $key => $item) {
+            if ($item < $array[$resultKey]) {
+                $resultKey = $key;
+            }
+        }
+        return $array[$resultKey];
+    }
 }
