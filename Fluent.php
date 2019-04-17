@@ -8,9 +8,9 @@ class Fluent
 
     /**
      * Fluent constructor.
-     * @param array $array
+     * @param mixed $array
      */
-    public function __construct(array $array)
+    public function __construct($array)
     {
         $this->array = $array;
     }
@@ -252,6 +252,22 @@ class Fluent
     {
         ArrayHelper::set($this->array, $key, $value);
         return $this;
+    }
+
+    public function onlyWithKey($key)
+    {
+        $this->array = ArrayHelper::onlyWithKey($this->array, $key);
+        return $this;
+    }
+
+    public function firstKey()
+    {
+        return ArrayHelper::firstKey($this->array);
+    }
+
+    public function lastKey()
+    {
+        return ArrayHelper::lastKey($this->array);
     }
 
     /**

@@ -49,14 +49,17 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [column](#column)
 * [except](#except)
 * [filter](#filter)
+* [firstKey](#first-key)
 * [getValue](#get-value)
 * [has](#has)
 * [insert](#insert)
 * [isAssoc](#isassoc)
 * [isMulti](#ismulti)
 * [keyValue](#keyvalue)
+* [lastKey](#last-key)
 * [map](#map)
 * [only](#only)
+* [onlyWithKey](#only-with-key)
 * [paginate](#paginate)
 * [random](#random)
 * [reindex](#reindex)
@@ -170,6 +173,22 @@ $array = [
           'name' => 'test1'
       ]
  ]
+```
+
+### First key
+Get the first key of the given array
+```php
+ArrayHelper::firstKey(array $array)
+```
+##### Demo:
+```php
+$array = [
+    'a' => 1,
+    'b' => 2,
+    'c' => 3
+];
+ArrayHelper::firstKey($array);
+// result: 'a'
 ```
 
 ### Insert
@@ -328,6 +347,22 @@ result:
 ];
 ```
 
+### Last key
+Get the last key of the given array
+```php
+ArrayHelper::lastKey($array)
+```
+##### Demo:
+```php
+$array = [
+    'a' => 1,
+    'b' => 2,
+    'c' => 3
+];
+ArrayHelper::lastKey($array);
+// result: 'c'
+```
+
 ### Map
 Applies the callback to the elements of the given array
 
@@ -413,6 +448,41 @@ result:
 [
    ['foo' => 'bar'],
    ['foo' => 'bar']
+]
+```
+
+### Only with key
+Get a subset of the items from the given array with key $key
+```php
+ArrayHelper::onlyWithKey(array $array, $key)
+```
+##### Demo:
+```php
+$array = [
+    [
+        'a' => 1,
+        'b' => 2
+    ],
+    [
+        'a' => 1,
+        'b' => 2
+    ],
+    [
+        'b' => 2
+    ]
+];
+
+ArrayHelper::onlyWithKey($array, 'a');
+// result:
+[
+    [
+        'a' => 1,
+        'b' => 2
+    ],
+    [
+        'a' => 1,
+        'b' => 2
+    ]
 ]
 ```
 

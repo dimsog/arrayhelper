@@ -3,7 +3,29 @@ namespace dimsog\arrayhelper;
 
 class ArrayHelper
 {
-    public static function fluent(array $array)
+    /**
+     * From array:
+     * ```php
+     * ArrayHelper::fluent($array)
+     *  ->map(function($item) {
+     *      return $item;
+     *  })
+     * ->get();
+     * ```
+     *
+     * From string:
+     * ```php
+     * ArrayHelper::fluent($jsonString)
+     *  ->toArray()
+     *  ->map(function($item) {
+     *
+     *  });
+     * ```
+     *
+     * @param array|mixed $array
+     * @return Fluent
+     */
+    public static function fluent($array)
     {
         return new Fluent($array);
     }
@@ -1058,5 +1080,98 @@ class ArrayHelper
             $array = &$array[$part];
         }
         $array[$lastKey] = $value;
+    }
+
+    /**
+     * Get a subset of the items from the given array with key $key
+     * ```php
+     * $array = [
+     *  [
+     *      'a' => 1,
+     *      'b' => 2
+     *  ],
+     *  [
+     *      'a' => 1,
+     *      'b' => 2
+     *  ],
+     *  [
+     *      'b' => 2
+     *  ]
+     * ];
+     * ArrayHelper::onlyWithKey($array, 'a')
+     * result:
+     * [
+     *  [
+     *      'a' => 1,
+     *      'b' => 2
+     *  ],
+     *  [
+     *      'a' => 1,
+     *      'b' => 2
+     *  ]
+     * ]
+     * ```
+     * @param array $array
+     * @param $key
+     * @return array
+     */
+    public static function onlyWithKey(array $array, $key)
+    {
+        return static::filter($array, function($item) use ($key) {
+            if (is_array($item) == false) {
+                return false;
+            }
+            return array_key_exists($key, $item);
+        }, true);
+    }
+
+    /**
+     * Get the first key of the given array
+     *
+     * ```php
+     *  $array = [
+     *      'a' => 1,
+     *      'b' => 2,
+     *      'c' => 3
+     * ];
+     * ArrayHelper::firstKey($array)
+     * result: a
+     * ```
+     *
+     * @param array $array
+     * @return int|mixed|string|null
+     */
+    public static function firstKey(array $array)
+    {
+        if (function_exists('array_key_first')) {
+            return array_key_first($array);
+        }
+        reset($array);
+        return key($array);
+    }
+
+    /**
+     * Get the last key of the given array
+     *
+     * ```php
+     *  $array = [
+     *      'a' => 1,
+     *      'b' => 2,
+     *      'c' => 3
+     * ];
+     * ArrayHelper::lastKey($array)
+     * result: c
+     * ```
+     *
+     * @param array $array
+     * @return int|mixed|string|null
+     */
+    public static function lastKey(array $array)
+    {
+        if (function_exists('array_key_last')) {
+            return array_key_last($array);
+        }
+        end($array);
+        return key($array);
     }
 }

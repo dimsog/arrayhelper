@@ -891,4 +891,80 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals($array, $expected);
     }
+
+    public function testOnlyWithKey()
+    {
+        $array = [
+            [
+                'a' => 1,
+                'b' => 2
+            ],
+            [
+                'a' => 1,
+                'b' => 2
+            ],
+            [
+                'b' => 2
+            ]
+        ];
+        $expected = [
+            [
+                'a' => 1,
+                'b' => 2
+            ],
+            [
+                'a' => 1,
+                'b' => 2
+            ],
+        ];
+        $this->assertEquals($expected, ArrayHelper::onlyWithKey($array, 'a'));
+
+        $array = [
+            'a' => [
+                'a' => 1,
+                'b' => 2
+            ],
+            'b' => [
+                'a' => 1
+            ],
+            1,
+            2,
+            3,
+            'c' => [
+                'a' => 1,
+                'b' => 4
+            ]
+        ];
+        $expected = [
+            'a' => [
+                'a' => 1,
+                'b' => 2
+            ],
+            'c' => [
+                'a' => 1,
+                'b' => 4
+            ]
+        ];
+        $this->assertEquals($expected, ArrayHelper::onlyWithKey($array, 'b'));
+    }
+
+    public function testFirstKey()
+    {
+        $array = [
+            'a' => 1,
+            'b' => 2,
+            'c' => 3
+        ];
+        $this->assertEquals('a', ArrayHelper::firstKey($array));
+    }
+
+    public function testLastKey()
+    {
+        $array = [
+            'a' => 1,
+            'b' => 2,
+            'c' => 3
+        ];
+        $this->assertEquals('c', ArrayHelper::lastKey($array));
+    }
 }
