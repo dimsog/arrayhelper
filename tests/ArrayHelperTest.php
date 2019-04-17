@@ -895,6 +895,31 @@ class ArrayHelperTest extends TestCase
     public function testOnlyWithKey()
     {
         $array = [
+            [
+                'a' => 1,
+                'b' => 2
+            ],
+            [
+                'a' => 1,
+                'b' => 2
+            ],
+            [
+                'b' => 2
+            ]
+        ];
+        $expected = [
+            [
+                'a' => 1,
+                'b' => 2
+            ],
+            [
+                'a' => 1,
+                'b' => 2
+            ],
+        ];
+        $this->assertEquals($expected, ArrayHelper::onlyWithKey($array, 'a'));
+
+        $array = [
             'a' => [
                 'a' => 1,
                 'b' => 2
