@@ -1084,6 +1084,31 @@ class ArrayHelper
 
     /**
      * Get a subset of the items from the given array with key $key
+     * ```php
+     * $array = [
+     *  [
+     *      'a' => 1,
+     *      'b' => 2
+     *  ],
+     *  [
+     *      'a' => 1,
+     *      'b' => 2
+     *  ],
+     *  [
+     *      'b' => 2
+     *  ]
+     * ];
+     * ArrayHelper::onlyWithKey($array, 'a')
+     * result:
+     * [
+     *      'a' => 1,
+     *      'b' => 2
+     *  ],
+     *  [
+     *      'a' => 1,
+     *      'b' => 2
+     *  ]
+     * ```
      * @param array $array
      * @param $key
      * @return array
