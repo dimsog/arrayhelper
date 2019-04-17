@@ -1098,6 +1098,22 @@ class ArrayHelper
         }, true);
     }
 
+    /**
+     * Get the first key of the given array
+     *
+     * ```php
+     *  $array = [
+     *      'a' => 1,
+     *      'b' => 2,
+     *      'c' => 3
+     * ];
+     * ArrayHelper::firstKey($array)
+     * result: a
+     * ```
+     *
+     * @param array $array
+     * @return int|mixed|string|null
+     */
     public static function firstKey(array $array)
     {
         if (function_exists('array_key_first')) {
@@ -1107,6 +1123,22 @@ class ArrayHelper
         return key($array);
     }
 
+    /**
+     * Get the last key of the given array
+     *
+     * ```php
+     *  $array = [
+     *      'a' => 1,
+     *      'b' => 2,
+     *      'c' => 3
+     * ];
+     * ArrayHelper::lastKey($array)
+     * result: c
+     * ```
+     *
+     * @param array $array
+     * @return int|mixed|string|null
+     */
     public static function lastKey(array $array)
     {
         if (function_exists('array_key_last')) {
