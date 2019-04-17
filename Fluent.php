@@ -254,6 +254,22 @@ class Fluent
         return $this;
     }
 
+    public function onlyWithKey($key)
+    {
+        $this->array = ArrayHelper::onlyWithKey($this->array, $key);
+        return $this;
+    }
+
+    public function firstKey()
+    {
+        return ArrayHelper::firstKey($this->array);
+    }
+
+    public function lastKey()
+    {
+        return ArrayHelper::lastKey($this->array);
+    }
+
     /**
      * Return a result array
      * @return array
