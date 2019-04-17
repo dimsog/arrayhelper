@@ -1101,6 +1101,7 @@ class ArrayHelper
      * ArrayHelper::onlyWithKey($array, 'a')
      * result:
      * [
+     *  [
      *      'a' => 1,
      *      'b' => 2
      *  ],
@@ -1108,6 +1109,7 @@ class ArrayHelper
      *      'a' => 1,
      *      'b' => 2
      *  ]
+     * ]
      * ```
      * @param array $array
      * @param $key
