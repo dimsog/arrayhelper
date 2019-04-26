@@ -270,6 +270,12 @@ class Fluent
         return ArrayHelper::lastKey($this->array);
     }
 
+    public function unique($key = null)
+    {
+        $this->array = ArrayHelper::unique($this->array, $key);
+        return $this;
+    }
+
     /**
      * Return a result array
      * @return array

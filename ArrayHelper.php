@@ -1174,4 +1174,88 @@ class ArrayHelper
         end($array);
         return key($array);
     }
+
+    /**
+     * Removes duplicate values from an array
+     *
+     * For example:
+     * ```php
+     * $array = [
+     *      'a', 'a', 'b', 'b'
+     * ];
+     * ArrayHelper::unique($array);
+     * result:
+     * ['a', 'b']
+     * ```
+     *
+     * Multidimensional array:
+     * ```php
+     * $array = [
+     *      ['a', 'a', 'b', 'b'],
+     *      ['a', 'a', 'b', 'b']
+     * ];
+     * ArrayHelper::unique($array);
+     * result:
+     * [ ['a', 'b'], ['a', 'b'] ]
+     * ```
+     *
+     * Multidimensional array with specific key:
+     * ```php
+     * $array = [
+     *  [
+     *      'id' => 100,
+     *      'name' => 'Product 1'
+     *  ],
+     *  [
+     *      'id' => 200,
+     *      'name' => 'Product 2'
+     *  ],
+     *  [
+     *      'id' => 100,
+     *      'name' => 'Product 3'
+     *  ]
+     * ];
+     * ArrayHelper::unique($array, 'id');
+     * result:
+     * [
+     *  [
+     *      'id' => 100,
+     *      'name' => 'Product 1'
+     *  ],
+     *  [
+     *      'id' => 200,
+     *      'name' => 'Product 2'
+     *  ]
+     * ]
+     * ```
+     *
+     * @param array $array
+     * @param null|mixed $key
+     * @return array
+     */
+    public static function unique(array $array, $key = null)
+    {
+        if (static::isMulti($array, true) == false) {
+            return $key === null ? array_unique($array) : $array;
+        }
+
+        if ($key == null) {
+            return static::map($array, function($item) {
+                return array_unique($item);
+            });
+        }
+
+        $array = static::onlyWithKey($array, $key);
+
+        $tmpUniqueValues = [];
+        $return = [];
+        foreach ($array as $item) {
+            if (in_array($item[$key], $tmpUniqueValues)) {
+                continue;
+            }
+            $tmpUniqueValues[] = $item[$key];
+            $return[] = $item;
+        }
+        return $return;
+    }
 }

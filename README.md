@@ -71,6 +71,7 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [sum](#sum)
 * [toArray](#to-array)
 * [toInt](#toint)
+* [unique](#unique)
 * [values](#values)
 
 # Code examples
@@ -806,6 +807,66 @@ $source = [
     ]
 ];
 ArrayHelper::toInt($source, ['id', 'created_at', 'other']);
+```
+
+### Unique
+Removes duplicate values from an array
+```php
+ArrayHelper::unique(array $array, $key = null)
+```
+##### Demo:
+```php
+$array = [
+    'a', 'a', 'b', 'b'
+];
+$array = ArrayHelper::unique($array);
+// result:
+['a', 'b']
+```
+```php
+$array = [
+    ['a', 'a', 'b', 'b'],
+    ['a', 'a', 'b', 'b']
+];
+$array = ArrayHelper::unique($array);
+
+// result:
+[
+    ['a', 'b'],
+    ['a', 'b']
+]
+```
+
+```php
+$array = [
+    [
+        'id' => 100,
+        'name' => 'Product 1'
+    ],
+    [
+        'id' => 200,
+        'name' => 'Product 2'
+    ],
+    [
+        'id' => 100,
+        'name' => 'Product 3'
+    ],
+    [
+        'name' => 'Product 4'
+    ]
+];
+$array = ArrayHelper::unique($array, 'id');
+// result:
+[
+    [
+        'id' => 100,
+        'name' => 'Product 1'
+    ],
+    [
+        'id' => 200,
+        'name' => 'Product 2'
+    ]
+]
 ```
 
 ### Values

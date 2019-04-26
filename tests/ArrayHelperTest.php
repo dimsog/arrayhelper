@@ -967,4 +967,46 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals('c', ArrayHelper::lastKey($array));
     }
+
+    public function testUnique()
+    {
+        $array = [
+            'a', 'a', 'b', 'b'
+        ];
+        $this->assertEquals([0 => 'a', 2 => 'b'], ArrayHelper::unique($array));
+        $array = [
+            ['a', 'a', 'b', 'b'],
+            ['a', 'a', 'b', 'b']
+        ];
+        $this->assertEquals([[0 => 'a', 2 => 'b'], [0 => 'a', 2 => 'b']], ArrayHelper::unique($array));
+
+        $array = [
+            [
+                'id' => 100,
+                'name' => 'Product 1'
+            ],
+            [
+                'id' => 200,
+                'name' => 'Product 2'
+            ],
+            [
+                'id' => 100,
+                'name' => 'Product 3'
+            ],
+            [
+                'name' => 'Product 4'
+            ]
+        ];
+        $expected = [
+            [
+                'id' => 100,
+                'name' => 'Product 1'
+            ],
+            [
+                'id' => 200,
+                'name' => 'Product 2'
+            ]
+        ];
+        $this->assertEquals($expected, ArrayHelper::unique($array, 'id'));
+    }
 }
