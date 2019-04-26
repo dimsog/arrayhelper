@@ -832,7 +832,7 @@ $array = ArrayHelper::unique($array);
 
 // result:
 [
-    ['a', 'b],
+    ['a', 'b'],
     ['a', 'b']
 ]
 ```
