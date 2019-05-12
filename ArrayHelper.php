@@ -1258,4 +1258,38 @@ class ArrayHelper
         }
         return $return;
     }
+
+    /**
+     * This method will push an item on the beginning of an array.
+     *
+     * ```php
+     * $array = [
+     *      1, 2, 3, 4
+     * ];
+     * ArrayHelper::prepend($array, -1);
+     * result:
+     * [-1, 1, 2, 3, 4]
+     *
+     * $array = [
+     *      'foo' => 'bar'
+     * ];
+     * ArrayHelper::prepend($array, 123', 'test');
+     * result: [
+     *      'test' => 123,
+     *      'foo' => 'bar'
+     * ];
+     * ```
+     *
+     * @param $array
+     * @param $value
+     * @param null $key
+     */
+    public static function prepend(&$array, $value, $key = null)
+    {
+        if ($key !== null) {
+            $array = [$key => $value] + $array;
+            return;
+        }
+        array_unshift($array, $value);
+    }
 }

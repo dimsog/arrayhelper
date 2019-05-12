@@ -1009,4 +1009,35 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals($expected, ArrayHelper::unique($array, 'id'));
     }
+
+    public function testPrepend()
+    {
+        $array = [
+            'foo' => 'bar'
+        ];
+        $expected = [
+            'test' => 123,
+            'foo' => 'bar'
+        ];
+        ArrayHelper::prepend($array, 123, 'test');
+        $this->assertEquals($expected, $array);
+
+        $array = [
+            1, 2, 3, 4
+        ];
+        $expected = [
+            -1, 1, 2, 3, 4
+        ];
+        ArrayHelper::prepend($array, -1);
+        $this->assertEquals($expected, $array);
+
+        $array = [
+            [1], [2], [3]
+        ];
+        $expected = [
+            [-1], [1], [2], [3]
+        ];
+        ArrayHelper::prepend($array, [-1]);
+        $this->assertEquals($array, $expected);
+    }
 }

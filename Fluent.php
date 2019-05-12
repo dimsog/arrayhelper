@@ -276,6 +276,12 @@ class Fluent
         return $this;
     }
 
+    public function prepend($value, $key = null)
+    {
+        ArrayHelper::prepend($this->array, $value, $key);
+        return $this;
+    }
+
     /**
      * Return a result array
      * @return array
