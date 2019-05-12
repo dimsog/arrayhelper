@@ -514,17 +514,12 @@ class ArrayHelper
      */
     public static function column(array $array, $key)
     {
-        if (function_exists('array_column')) {
-            return array_column($array, $key);
-        }
         $newArray = [];
         foreach ($array as $item) {
             if (is_array($item) == false) {
                 continue;
             }
-            if (array_key_exists($key, $item)) {
-                $newArray[] = $item[$key];
-            }
+            $newArray[] = static::getValue($item, $key);
         }
         return $newArray;
     }
