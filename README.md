@@ -243,8 +243,9 @@ result:
 
 ### Get value
 Retrieves the value of an array.
+You may also use stdClass instead array.
 ```php
-ArrayHelper::getValue(array $array, $key, $defaultValue = null)
+ArrayHelper::getValue($array, $key, $defaultValue = null)
 ```
 
 ##### Demo:
@@ -262,6 +263,10 @@ $user = [
         'big'   => '/path/to/image.jpg'
     ]
 ]
+ArrayHelper::getValue($user, 'photo.big');
+
+// Retrivies the value of a stdClass
+$user = json_decode($userJsonString);
 ArrayHelper::getValue($user, 'photo.big');
 ```
 

@@ -182,29 +182,31 @@ class ArrayHelper
      *
      * For example:
      * ```php
-     * // simple demo
      * ArrayHelper::getValue($user, 'id');
      *
-     * // with callback default value
      * ArrayHelper::getValue($user, 'name', function() {
      *      return "Dmitry R";
      * });
      *
-     * // Retrivies the value of a sub-array
      * $user = [
      *      'photo' => [
      *          'big'   => '/path/to/image.jpg'
      *      ]
      * ]
      * ArrayHelper::getValue($user, 'photo.big');
+     * result: '/path/to/image.jpg'
+     *
+     * // You may also use stdClass instead array. For example:
+     * $stdClass = json_decode($userJsonString);
+     * ArrayHelper::getValue($stdClass, 'photo.big');
      * ```
      *
-     * @param array $array
+     * @param array|\stdClass $array
      * @param $key
      * @param null|\Closure $defaultValue
      * @return mixed
      */
-    public static function getValue(array $array, $key, $defaultValue = null)
+    public static function getValue($array, $key, $defaultValue = null)
     {
         if ($defaultValue instanceof \Closure) {
             $defaultValue = call_user_func($defaultValue);
@@ -213,7 +215,10 @@ class ArrayHelper
             $array = static::getValue($array, substr($key, 0, $position), $defaultValue);
             $key = substr($key, $position + 1);
         }
-        if (array_key_exists($key, $array)) {
+        if ($array instanceof \stdClass && property_exists($array, $key)) {
+            return $array->{$key};
+        }
+        if (is_array($array) && array_key_exists($key, $array)) {
             return $array[$key];
         }
         return $defaultValue;

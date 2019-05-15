@@ -174,6 +174,9 @@ class ArrayHelperTest extends TestCase
             ]
         ];
         $this->assertEquals(123, ArrayHelper::getValue($array2, 'foo.bar.baz'));
+
+        $std = json_decode(json_encode($array2));
+        $this->assertEquals(123, ArrayHelper::getValue($std, 'foo.bar.baz'));
     }
 
     public function testIsMultiArray()
