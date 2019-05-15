@@ -526,7 +526,7 @@ result: [1, 2, 3]
 ### Prepend
 This method will push an item on the beginning of an array.
 ```php
-ArrayHelper::prepend(&$array, $value, $key = null)
+ArrayHelper::prepend(&$array, $keyOrValue, $value = null)
 ```
 ##### Demo:
 ```php
@@ -540,7 +540,7 @@ result:
 $array = [
     'foo' => 'bar'
 ];
-ArrayHelper::prepend($array, 123', 'test');
+ArrayHelper::prepend($array, 'test', 123');
 result: 
 [
     'test' => 123,

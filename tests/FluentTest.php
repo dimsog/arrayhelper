@@ -47,6 +47,25 @@ class FluentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([2, 4, 6], $expected);
     }
 
+    public function testPrepend()
+    {
+        $result = ArrayHelper::fluent([1, 2, 3])
+            ->prepend(-1)
+            ->get();
+        $this->assertEquals($result, [-1, 1, 2, 3]);
+
+        $result = ArrayHelper::fluent([
+            'key' => 'value'
+        ])
+        ->prepend('key1', 'value1')
+        ->get();
+
+        $this->assertEquals($result, [
+            'key1' => 'value1',
+            'key'  => 'value'
+        ]);
+    }
+
     public function testFluentWithRemove()
     {
         $array = [

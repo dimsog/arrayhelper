@@ -1043,7 +1043,7 @@ class ArrayHelperTest extends TestCase
             'test' => 123,
             'foo' => 'bar'
         ];
-        ArrayHelper::prepend($array, 123, 'test');
+        ArrayHelper::prepend($array, 'test', 123);
         $this->assertEquals($expected, $array);
 
         $array = [

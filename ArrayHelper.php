@@ -1304,7 +1304,7 @@ class ArrayHelper
      * $array = [
      *      'foo' => 'bar'
      * ];
-     * ArrayHelper::prepend($array, 123', 'test');
+     * ArrayHelper::prepend($array, 'test', 123);
      * result: [
      *      'test' => 123,
      *      'foo' => 'bar'
@@ -1312,15 +1312,15 @@ class ArrayHelper
      * ```
      *
      * @param $array
-     * @param $value
-     * @param null $key
+     * @param $keyOrValue
+     * @param null|mixed $value
      */
-    public static function prepend(&$array, $value, $key = null)
+    public static function prepend(&$array, $keyOrValue, $value = null)
     {
-        if ($key !== null) {
-            $array = [$key => $value] + $array;
+        if ($value !== null) {
+            $array = [$keyOrValue => $value] + $array;
             return;
         }
-        array_unshift($array, $value);
+        array_unshift($array, $keyOrValue);
     }
 }
