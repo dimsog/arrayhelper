@@ -540,7 +540,7 @@ result:
 $array = [
     'foo' => 'bar'
 ];
-ArrayHelper::prepend($array, 'test', 123');
+ArrayHelper::prepend($array, 'test', 123);
 result: 
 [
     'test' => 123,
