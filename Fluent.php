@@ -144,6 +144,12 @@ class Fluent
         return $this;
     }
 
+    public function ids()
+    {
+        $this->array = ArrayHelper::ids($this->array);
+        return $this;
+    }
+
     /**
      * @see ArrayHelper::filter()
      * @param $condition

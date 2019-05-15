@@ -525,6 +525,42 @@ class ArrayHelper
     }
 
     /**
+     * This method will return all of id values from the input array
+     * This is alias for ArrayHelper::column($array, 'id');
+     *
+     * ````php
+     * $array = [
+     *      [
+     *          'id' => 1,
+     *          'name' => 'test1'
+     *      ],
+     *      [
+     *          'id' => 2,
+     *          'name' => 'test2'
+     *      ],
+     *      [
+     *          'id' => 3,
+     *          'name' => 'test3'
+     *      ],
+     *      [
+     *          'id' => 4,
+     *          'name' => 'test4'
+     *      ]
+     * ]
+     *
+     * ArrayHelper::ids($array, 'id');
+     *
+     * return: [1, 2, 3, 4]
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function ids(array $array)
+    {
+        return static::column($array, 'id');
+    }
+
+    /**
      * Filter an array
      * Simple example:
      * ```php

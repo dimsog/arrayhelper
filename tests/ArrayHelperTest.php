@@ -367,6 +367,30 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals([], ArrayHelper::column(['id' => '123', 'test' => 'name'], 'id'));
     }
 
+    public function testIds()
+    {
+        $array = [
+            [
+                'id' => 1,
+                'name' => 'test1'
+            ],
+            [
+                'id' => 2,
+                'name' => 'test2'
+            ],
+            [
+                'id' => 3,
+                'name' => 'test3'
+            ],
+            [
+                'id' => 4,
+                'name' => 'test4'
+            ]
+        ];
+        $this->assertEquals([1, 2, 3, 4], ArrayHelper::ids($array));
+        $this->assertEquals([], ArrayHelper::ids([]));
+    }
+
     public function testFilter()
     {
         // fake test
