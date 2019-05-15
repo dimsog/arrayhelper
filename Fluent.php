@@ -144,6 +144,12 @@ class Fluent
         return $this;
     }
 
+    public function ids()
+    {
+        $this->array = ArrayHelper::ids($this->array);
+        return $this;
+    }
+
     /**
      * @see ArrayHelper::filter()
      * @param $condition
@@ -273,6 +279,12 @@ class Fluent
     public function unique($key = null)
     {
         $this->array = ArrayHelper::unique($this->array, $key);
+        return $this;
+    }
+
+    public function prepend($keyOrValue, $value = null)
+    {
+        ArrayHelper::prepend($this->array, $keyOrValue, $value);
         return $this;
     }
 

@@ -52,6 +52,7 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [firstKey](#first-key)
 * [getValue](#get-value)
 * [has](#has)
+* [ids](#ids)
 * [insert](#insert)
 * [isAssoc](#isassoc)
 * [isMulti](#ismulti)
@@ -61,6 +62,7 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [only](#only)
 * [onlyWithKey](#only-with-key)
 * [paginate](#paginate)
+* [prepend](#prepend)
 * [random](#random)
 * [reindex](#reindex)
 * [remove](#remove)
@@ -288,6 +290,28 @@ ArrayHelper::has($array, 'foo.bar.1')
 // true
 ```
 
+### Ids
+This method will return all of id values from the input array.
+This is alias for ArrayHelper::column($array, 'id');
+```php
+ArrayHelper::ids($array)
+```
+##### Demo:
+```php
+$array = [
+    [
+        'id' => 1,
+        'name' => 'test1'
+    ],
+    [
+        'id' => 2,
+        'name' => 'test2'
+    ]
+];
+ArrayHelper::ids($array);
+result: [1, 2]
+```
+
 ### isAssoc
 Determine whether array is assoc or not
 ```php
@@ -497,6 +521,31 @@ ArrayHelper::paginate(array $array, $page, $limit)
 $array = [1, 2, 3, 4, 5, 6];
 ArrayHelper::paginate($array, 1, 3)
 result: [1, 2, 3]
+```
+
+### Prepend
+This method will push an item on the beginning of an array.
+```php
+ArrayHelper::prepend(&$array, $keyOrValue, $value = null)
+```
+##### Demo:
+```php
+$array = [
+    1, 2, 3, 4
+];
+ArrayHelper::prepend($array, -1);
+result:
+[-1, 1, 2, 3, 4]
+
+$array = [
+    'foo' => 'bar'
+];
+ArrayHelper::prepend($array, 'test', 123);
+result: 
+[
+    'test' => 123,
+    'foo' => 'bar'
+];
 ```
 
 ### Random

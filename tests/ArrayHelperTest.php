@@ -367,6 +367,30 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals([], ArrayHelper::column(['id' => '123', 'test' => 'name'], 'id'));
     }
 
+    public function testIds()
+    {
+        $array = [
+            [
+                'id' => 1,
+                'name' => 'test1'
+            ],
+            [
+                'id' => 2,
+                'name' => 'test2'
+            ],
+            [
+                'id' => 3,
+                'name' => 'test3'
+            ],
+            [
+                'id' => 4,
+                'name' => 'test4'
+            ]
+        ];
+        $this->assertEquals([1, 2, 3, 4], ArrayHelper::ids($array));
+        $this->assertEquals([], ArrayHelper::ids([]));
+    }
+
     public function testFilter()
     {
         // fake test
@@ -1008,5 +1032,36 @@ class ArrayHelperTest extends TestCase
             ]
         ];
         $this->assertEquals($expected, ArrayHelper::unique($array, 'id'));
+    }
+
+    public function testPrepend()
+    {
+        $array = [
+            'foo' => 'bar'
+        ];
+        $expected = [
+            'test' => 123,
+            'foo' => 'bar'
+        ];
+        ArrayHelper::prepend($array, 'test', 123);
+        $this->assertEquals($expected, $array);
+
+        $array = [
+            1, 2, 3, 4
+        ];
+        $expected = [
+            -1, 1, 2, 3, 4
+        ];
+        ArrayHelper::prepend($array, -1);
+        $this->assertEquals($expected, $array);
+
+        $array = [
+            [1], [2], [3]
+        ];
+        $expected = [
+            [-1], [1], [2], [3]
+        ];
+        ArrayHelper::prepend($array, [-1]);
+        $this->assertEquals($array, $expected);
     }
 }

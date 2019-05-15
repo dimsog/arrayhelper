@@ -514,19 +514,50 @@ class ArrayHelper
      */
     public static function column(array $array, $key)
     {
-        if (function_exists('array_column')) {
-            return array_column($array, $key);
-        }
         $newArray = [];
         foreach ($array as $item) {
             if (is_array($item) == false) {
                 continue;
             }
-            if (array_key_exists($key, $item)) {
-                $newArray[] = $item[$key];
-            }
+            $newArray[] = static::getValue($item, $key);
         }
         return $newArray;
+    }
+
+    /**
+     * This method will return all of id values from the input array
+     * This is alias for ArrayHelper::column($array, 'id');
+     *
+     * ````php
+     * $array = [
+     *      [
+     *          'id' => 1,
+     *          'name' => 'test1'
+     *      ],
+     *      [
+     *          'id' => 2,
+     *          'name' => 'test2'
+     *      ],
+     *      [
+     *          'id' => 3,
+     *          'name' => 'test3'
+     *      ],
+     *      [
+     *          'id' => 4,
+     *          'name' => 'test4'
+     *      ]
+     * ]
+     *
+     * ArrayHelper::ids($array, 'id');
+     *
+     * return: [1, 2, 3, 4]
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function ids(array $array)
+    {
+        return static::column($array, 'id');
     }
 
     /**
@@ -1257,5 +1288,39 @@ class ArrayHelper
             $return[] = $item;
         }
         return $return;
+    }
+
+    /**
+     * This method will push an item on the beginning of an array.
+     *
+     * ```php
+     * $array = [
+     *      1, 2, 3, 4
+     * ];
+     * ArrayHelper::prepend($array, -1);
+     * result:
+     * [-1, 1, 2, 3, 4]
+     *
+     * $array = [
+     *      'foo' => 'bar'
+     * ];
+     * ArrayHelper::prepend($array, 'test', 123);
+     * result: [
+     *      'test' => 123,
+     *      'foo' => 'bar'
+     * ];
+     * ```
+     *
+     * @param $array
+     * @param $keyOrValue
+     * @param null|mixed $value
+     */
+    public static function prepend(&$array, $keyOrValue, $value = null)
+    {
+        if ($value !== null) {
+            $array = [$keyOrValue => $value] + $array;
+            return;
+        }
+        array_unshift($array, $keyOrValue);
     }
 }
