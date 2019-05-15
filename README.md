@@ -61,6 +61,7 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [only](#only)
 * [onlyWithKey](#only-with-key)
 * [paginate](#paginate)
+* [prepend](#prepend)
 * [random](#random)
 * [reindex](#reindex)
 * [remove](#remove)
@@ -497,6 +498,31 @@ ArrayHelper::paginate(array $array, $page, $limit)
 $array = [1, 2, 3, 4, 5, 6];
 ArrayHelper::paginate($array, 1, 3)
 result: [1, 2, 3]
+```
+
+### Prepend
+This method will push an item on the beginning of an array.
+```php
+ArrayHelper::prepend(&$array, $value, $key = null)
+```
+##### Demo:
+```php
+$array = [
+    1, 2, 3, 4
+];
+ArrayHelper::prepend($array, -1);
+result:
+[-1, 1, 2, 3, 4]
+
+$array = [
+    'foo' => 'bar'
+];
+ArrayHelper::prepend($array, 123', 'test');
+result: 
+[
+    'test' => 123,
+    'foo' => 'bar'
+];
 ```
 
 ### Random
