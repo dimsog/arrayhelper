@@ -1328,4 +1328,52 @@ class ArrayHelper
         }
         array_unshift($array, $keyOrValue);
     }
+
+    /**
+     * Find a first array item from an array
+     *
+     * ```php
+     * $array = [
+     *  [
+     *      'id' => 1,
+     *      'foo' => 'bar'
+     *  ],
+     *  [
+     *      'id' => 2,
+     *      'foo' => 'baz'
+     *  ],
+     *  [
+     *      'id' => 3,
+     *      'foo' => 'baz'
+     *  ]
+     * ];
+     * // find a first element using callback:
+     * ArrayHelper::findFirst($array, function($element) {
+     *      return $element['foo'] == 'baz';
+     * });
+     * // find a first element using array condition:
+     * ArrayHelper::findFirst($array, ['foo' => 'baz'])
+     * ```
+     *
+     * For more information see filter() function
+     *
+     * @param array $array
+     * @param $condition
+     * @see ArrayHelper::filter()
+     * @return bool|mixed
+     */
+    public static function findFirst(array $array, $condition)
+    {
+        if (static::isMulti($array) === false) {
+            return false;
+        }
+
+        foreach ($array as $element) {
+            $values = static::filter([$element], $condition);
+            if (empty($values) == false) {
+                return $values[0];
+            }
+        }
+        return false;
+    }
 }
