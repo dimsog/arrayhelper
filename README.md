@@ -49,6 +49,7 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [column](#column)
 * [except](#except)
 * [filter](#filter)
+* [findFirst](#find-first)
 * [firstKey](#first-key)
 * [getValue](#get-value)
 * [has](#has)
@@ -176,6 +177,47 @@ $array = [
           'name' => 'test1'
       ]
  ]
+```
+
+### Find first
+Find a first array item from an array
+```php
+ArrayHelper::findFirst(array $array, $condition)
+```
+##### Demo:
+```php
+$array = [
+    [
+        'id' => 1,
+        'foo' => 'bar'
+    ],
+    [
+        'id' => 2,
+        'foo' => 'baz'
+    ],
+    [
+        'id' => 3,
+        'foo' => 'baz'
+    ]
+];
+
+// find a first element using callback:
+ArrayHelper::findFirst($array, function($element) {
+    return $element['foo'] == 'baz';
+});
+result:
+[
+    'id'    => 2,
+    'foo'   => 'baz'
+]
+
+// find a first element using array condition:
+ArrayHelper::findFirst($array, ['foo' => 'baz']);
+result:
+[
+    'id'    => 2,
+    'foo'   => 'baz'
+]
 ```
 
 ### First key
