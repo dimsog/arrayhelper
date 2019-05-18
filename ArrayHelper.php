@@ -182,29 +182,31 @@ class ArrayHelper
      *
      * For example:
      * ```php
-     * // simple demo
      * ArrayHelper::getValue($user, 'id');
      *
-     * // with callback default value
      * ArrayHelper::getValue($user, 'name', function() {
      *      return "Dmitry R";
      * });
      *
-     * // Retrivies the value of a sub-array
      * $user = [
      *      'photo' => [
      *          'big'   => '/path/to/image.jpg'
      *      ]
      * ]
      * ArrayHelper::getValue($user, 'photo.big');
+     * result: '/path/to/image.jpg'
+     *
+     * // You may also use stdClass instead array. For example:
+     * $stdClass = json_decode($userJsonString);
+     * ArrayHelper::getValue($stdClass, 'photo.big');
      * ```
      *
-     * @param array $array
+     * @param array|\stdClass $array
      * @param $key
      * @param null|\Closure $defaultValue
      * @return mixed
      */
-    public static function getValue(array $array, $key, $defaultValue = null)
+    public static function getValue($array, $key, $defaultValue = null)
     {
         if ($defaultValue instanceof \Closure) {
             $defaultValue = call_user_func($defaultValue);
@@ -213,7 +215,10 @@ class ArrayHelper
             $array = static::getValue($array, substr($key, 0, $position), $defaultValue);
             $key = substr($key, $position + 1);
         }
-        if (array_key_exists($key, $array)) {
+        if ($array instanceof \stdClass && property_exists($array, $key)) {
+            return $array->{$key};
+        }
+        if (is_array($array) && array_key_exists($key, $array)) {
             return $array[$key];
         }
         return $defaultValue;
@@ -1322,5 +1327,53 @@ class ArrayHelper
             return;
         }
         array_unshift($array, $keyOrValue);
+    }
+
+    /**
+     * Find a first array item from an array
+     *
+     * ```php
+     * $array = [
+     *  [
+     *      'id' => 1,
+     *      'foo' => 'bar'
+     *  ],
+     *  [
+     *      'id' => 2,
+     *      'foo' => 'baz'
+     *  ],
+     *  [
+     *      'id' => 3,
+     *      'foo' => 'baz'
+     *  ]
+     * ];
+     * // find a first element using callback:
+     * ArrayHelper::findFirst($array, function($element) {
+     *      return $element['foo'] == 'baz';
+     * });
+     * // find a first element using array condition:
+     * ArrayHelper::findFirst($array, ['foo' => 'baz'])
+     * ```
+     *
+     * For more information see filter() function
+     *
+     * @param array $array
+     * @param $condition
+     * @see ArrayHelper::filter()
+     * @return bool|mixed
+     */
+    public static function findFirst(array $array, $condition)
+    {
+        if (static::isMulti($array) === false) {
+            return false;
+        }
+
+        foreach ($array as $element) {
+            $values = static::filter([$element], $condition);
+            if (empty($values) == false) {
+                return $values[0];
+            }
+        }
+        return false;
     }
 }

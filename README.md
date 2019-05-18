@@ -49,6 +49,7 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [column](#column)
 * [except](#except)
 * [filter](#filter)
+* [findFirst](#find-first)
 * [firstKey](#first-key)
 * [getValue](#get-value)
 * [has](#has)
@@ -178,6 +179,47 @@ $array = [
  ]
 ```
 
+### Find first
+Find a first array item from an array
+```php
+ArrayHelper::findFirst(array $array, $condition)
+```
+##### Demo:
+```php
+$array = [
+    [
+        'id' => 1,
+        'foo' => 'bar'
+    ],
+    [
+        'id' => 2,
+        'foo' => 'baz'
+    ],
+    [
+        'id' => 3,
+        'foo' => 'baz'
+    ]
+];
+
+// find a first element using callback:
+ArrayHelper::findFirst($array, function($element) {
+    return $element['foo'] == 'baz';
+});
+result:
+[
+    'id'    => 2,
+    'foo'   => 'baz'
+]
+
+// find a first element using array condition:
+ArrayHelper::findFirst($array, ['foo' => 'baz']);
+result:
+[
+    'id'    => 2,
+    'foo'   => 'baz'
+]
+```
+
 ### First key
 Get the first key of the given array
 ```php
@@ -243,8 +285,9 @@ result:
 
 ### Get value
 Retrieves the value of an array.
+You may also use stdClass instead array.
 ```php
-ArrayHelper::getValue(array $array, $key, $defaultValue = null)
+ArrayHelper::getValue($array, $key, $defaultValue = null)
 ```
 
 ##### Demo:
@@ -262,6 +305,10 @@ $user = [
         'big'   => '/path/to/image.jpg'
     ]
 ]
+ArrayHelper::getValue($user, 'photo.big');
+
+// Retrivies the value of a stdClass
+$user = json_decode($userJsonString);
 ArrayHelper::getValue($user, 'photo.big');
 ```
 

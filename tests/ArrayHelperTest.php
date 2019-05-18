@@ -174,6 +174,9 @@ class ArrayHelperTest extends TestCase
             ]
         ];
         $this->assertEquals(123, ArrayHelper::getValue($array2, 'foo.bar.baz'));
+
+        $std = json_decode(json_encode($array2));
+        $this->assertEquals(123, ArrayHelper::getValue($std, 'foo.bar.baz'));
     }
 
     public function testIsMultiArray()
@@ -1063,5 +1066,35 @@ class ArrayHelperTest extends TestCase
         ];
         ArrayHelper::prepend($array, [-1]);
         $this->assertEquals($array, $expected);
+    }
+
+    public function testFindFirst()
+    {
+        $array = [
+            [
+                'id' => 1,
+                'foo' => 'bar'
+            ],
+            [
+                'id' => 2,
+                'foo' => 'baz'
+            ],
+            [
+                'id' => 3,
+                'foo' => 'baz'
+            ]
+        ];
+        $expected = [
+            'id'    => 2,
+            'foo'   => 'baz'
+        ];
+        $this->assertEquals($expected, ArrayHelper::findFirst($array, function($element) {
+            return $element['foo'] == 'baz';
+        }));
+
+        $this->assertEquals($expected, ArrayHelper::findFirst($array, ['foo' => 'baz']));
+
+        $this->assertEquals(false, ArrayHelper::findFirst([], ['foo' => 'baz']));
+        $this->assertEquals(false, ArrayHelper::findFirst($array, ['foo1111' => 'baz']));
     }
 }
