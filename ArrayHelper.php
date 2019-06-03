@@ -1376,4 +1376,39 @@ class ArrayHelper
         }
         return false;
     }
+
+    /**
+     * This method checks exist or not value by key.
+     *
+     * ```php
+     * $array = [
+     *  [
+     *      'id'    => 100,
+     *      'name'  => 'Product 1'
+     *  ],
+     *  [
+     *      'id'    => 200,
+     *      'name'  => 'Product 2'
+     *  ],
+     *  [
+     *      'id'    => 300,
+     *      'name'  => 'Product 3'
+     *  ]
+     * ]
+     * ArrayHelper::exist($array, ['id' => 200]);
+     * // return true
+     *
+     * ArrayHelper::exist($array, ['id' => 400]);
+     * // return false;
+     * ```
+     *
+     * @param array $array
+     * @param array $condition
+     * @return bool
+     */
+    public static function exist(array $array, array $condition)
+    {
+        $filteredData = ArrayHelper::filter($array, $condition);
+        return empty($filteredData) === false;
+    }
 }
