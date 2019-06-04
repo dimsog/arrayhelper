@@ -288,6 +288,11 @@ class Fluent
         return $this;
     }
 
+    public function exist($condition)
+    {
+        return ArrayHelper::exist($this->array, $condition);
+    }
+
     /**
      * Return a result array
      * @return array
