@@ -1382,7 +1382,7 @@ class ArrayHelper
     }
 
     /**
-     * This method checks exist or not value by key.
+     * This method checks exist or not value by key, value or callable.
      *
      * in_array analog:
      * ```php

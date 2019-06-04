@@ -48,6 +48,7 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [collapse](#collapse)
 * [column](#column)
 * [except](#except)
+* [exist](#exist)
 * [filter](#filter)
 * [findFirst](#find-first)
 * [firstKey](#first-key)
@@ -140,6 +141,34 @@ ArrayHelper::except(array $array, array $keys)
 ```php
 ArrayHelper::except(['a', 'b', 'c'], ['a', 'b']);
 result: ['c']
+```
+
+### Exist
+This method checks exist or not value by key, value or callable
+```php
+ArrayHelper::exist(array $array, $condition)
+```
+##### Demo:
+```php
+ArrayHelper::exist(['a', 'b', 'c'], 'b'); // true
+$array = [
+    [
+        'id'    => 100,
+        'name'  => 'Product 1'
+    ],
+    [
+        'id'    => 200,
+        'name'  => 'Product 2'
+    ],
+    [
+        'id'    => 300,
+        'name'  => 'Product 3'
+    ]
+];
+ArrayHelper::exist($array, ['id' => 200]); // true
+ArrayHelper::exist($array, function($item) {
+    return $item['id'] == 300;
+});
 ```
 
 ### Filter
