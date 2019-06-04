@@ -613,25 +613,29 @@ class ArrayHelper
             return $array;
         }
 
-        if (static::isMulti($array) == false) {
-            return [];
-        }
-
-        if (is_array($condition) == false || empty($condition)) {
-            return [];
-        }
-
-        $array = array_filter($array, function($item) use ($condition) {
-            foreach ($condition as $key => $conditionItem) {
-                if (array_key_exists($key, $item) == false) {
+        if (is_array($condition)) {
+            $array = array_filter($array, function ($item) use ($condition) {
+                if (is_array($item) == false) {
                     return false;
                 }
-                if ($item[$key] != $conditionItem) {
-                    return false;
+                foreach ($condition as $key => $conditionItem) {
+                    if (array_key_exists($key, $item) == false) {
+                        return false;
+                    }
+                    if ($item[$key] != $conditionItem) {
+                        return false;
+                    }
                 }
-            }
-            return true;
-        });
+                return true;
+            });
+        } else {
+            $array = array_filter($array, function ($item) use ($condition) {
+                if (is_array($item)) {
+                    return in_array($condition, $item);
+                }
+                return $item == $condition;
+            });
+        }
         if ($preserveKeys == false) {
             $array = static::reindex($array);
         }
@@ -1375,5 +1379,48 @@ class ArrayHelper
             }
         }
         return false;
+    }
+
+    /**
+     * This method checks exist or not value by key, value or callable.
+     *
+     * in_array analog:
+     * ```php
+     * $array = ['a', 'b', 'c'];
+     * ArrayHelper::exist($array, 'b');
+     * ```
+     *
+     * Multiple array:
+     * ```php
+     * $array = [
+     *  [
+     *      'id'    => 100,
+     *      'name'  => 'Product 1'
+     *  ],
+     *  [
+     *      'id'    => 200,
+     *      'name'  => 'Product 2'
+     *  ],
+     *  [
+     *      'id'    => 300,
+     *      'name'  => 'Product 3'
+     *  ]
+     * ]
+     * ArrayHelper::exist($array, ['id' => 200]);
+     * // return true
+     *
+     * ArrayHelper::exist($array, ['id' => 400]);
+     * // return false;
+     * ```
+     *
+     *
+     * @param array $array
+     * @param $condition
+     * @return bool
+     */
+    public static function exist(array $array, $condition)
+    {
+        $filteredData = ArrayHelper::filter($array, $condition);
+        return empty($filteredData) === false;
     }
 }

@@ -1097,4 +1097,36 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals(false, ArrayHelper::findFirst([], ['foo' => 'baz']));
         $this->assertEquals(false, ArrayHelper::findFirst($array, ['foo1111' => 'baz']));
     }
+    
+    public function testExist()
+    {
+        $array = [
+            [
+                'id'    => 100,
+                'name'  => 'Product 1'
+            ],
+            [
+                'id'    => 200,
+                'name'  => 'Product 2'
+            ],
+            [
+                'id'    => 300,
+                'name'  => 'Product 3'
+            ],
+            [
+                'name' => 300
+            ]
+        ];
+        $this->assertTrue(ArrayHelper::exist($array, ['id' => 200]));
+        $this->assertFalse(ArrayHelper::exist($array, ['id' => 600]));
+
+        $array = ['a', 'b', 'c', ['a' => 2]];
+        $this->assertTrue(ArrayHelper::exist($array, 'a'));
+        $this->assertFalse(ArrayHelper::exist($array, 'abcd'));
+
+        $exist = ArrayHelper::exist($array, function($item) {
+            return $item == 'b';
+        });
+        $this->assertTrue($exist);
+    }
 }

@@ -88,4 +88,22 @@ class FluentTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(17, $result);
     }
+
+    public function testExist()
+    {
+        $array = [
+            [
+                'foo' => 'bar'
+            ],
+            [
+                'foo' => 'baz'
+            ],
+            [
+                'test' => 123
+            ]
+        ];
+        $exist = ArrayHelper::fluent($array)
+            ->exist(['foo' => 'bar']);
+        $this->assertTrue($exist);
+    }
 }
