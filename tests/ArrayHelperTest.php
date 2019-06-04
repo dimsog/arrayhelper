@@ -1112,12 +1112,15 @@ class ArrayHelperTest extends TestCase
             [
                 'id'    => 300,
                 'name'  => 'Product 3'
+            ],
+            [
+                'name' => 300
             ]
         ];
         $this->assertTrue(ArrayHelper::exist($array, ['id' => 200]));
         $this->assertFalse(ArrayHelper::exist($array, ['id' => 600]));
 
-        $array = ['a', 'b', 'c'];
+        $array = ['a', 'b', 'c', ['a' => 2]];
         $this->assertTrue(ArrayHelper::exist($array, 'a'));
         $this->assertFalse(ArrayHelper::exist($array, 'abcd'));
 
