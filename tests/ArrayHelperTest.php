@@ -1116,5 +1116,14 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertTrue(ArrayHelper::exist($array, ['id' => 200]));
         $this->assertFalse(ArrayHelper::exist($array, ['id' => 600]));
+
+        $array = ['a', 'b', 'c'];
+        $this->assertTrue(ArrayHelper::exist($array, 'a'));
+        $this->assertFalse(ArrayHelper::exist($array, 'abcd'));
+
+        $exist = ArrayHelper::exist($array, function($item) {
+            return $item == 'b';
+        });
+        $this->assertTrue($exist);
     }
 }
