@@ -293,6 +293,12 @@ class Fluent
         return ArrayHelper::exist($this->array, $condition);
     }
 
+    public function chunk(array $array, $column = 2)
+    {
+        $this->array = ArrayHelper::chunk($array, $column);
+        return $this;
+    }
+
     /**
      * Return a result array
      * @return array

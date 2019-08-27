@@ -1423,4 +1423,42 @@ class ArrayHelper
         $filteredData = ArrayHelper::filter($array, $condition);
         return empty($filteredData) === false;
     }
+
+    /**
+     * This method split an array into columns
+     *
+     * ```php
+     * $array = [
+     *   'foo' => 'bar',
+     *   'bar' => 'baz',
+     *   'vodka' => 'balalayka'
+     * ];
+     * ArrayHelper::chunk($array, 2);
+     * result:  [
+     *      [
+     *          'foo' => 'bar',
+     *          'bar' => 'baz'
+     *      ],
+     *      [
+     *          'vodka' => 'balalayka'
+     *      ]
+     *  ]
+     *
+     * ```
+     *
+     * @param array $array
+     * @param int $column
+     * @return array
+     */
+    public static function chunk(array $array, $column = 2)
+    {
+        if (empty($array)) {
+            return [];
+        }
+        $result = array_chunk($array, ceil(count($array) / $column), true);
+        if (count($result) < $column) {
+            $result = array_pad($result, $column,  []);
+        }
+        return $result;
+    }
 }

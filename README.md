@@ -47,6 +47,7 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [camelCaseKeys](#camel-case-keys)
 * [collapse](#collapse)
 * [column](#column)
+* [chunk](#chunk)
 * [except](#except)
 * [exist](#exist)
 * [filter](#filter)
@@ -130,6 +131,31 @@ $array = [
 ];
 ArrayHelper::column($array, 'id');
 result: [1, 2]
+```
+
+### Chunk
+Split an array into columns
+```php
+ArrayHelper::chunk(array $array, $column = 2)
+```
+##### Demo:
+```php
+$array = [
+    'foo' => 'bar',
+    'bar' => 'baz',
+    'vodka' => 'balalayka'
+];
+$result = ArrayHelper::chunk($array, 2)
+
+result: [
+    [
+        'foo' => 'bar',
+        'bar' => 'baz'
+    ],
+    [
+        'vodka' => 'balalayka'
+    ]
+];
 ```
 
 ### Except

@@ -1129,4 +1129,26 @@ class ArrayHelperTest extends TestCase
         });
         $this->assertTrue($exist);
     }
+
+    public function testChunk()
+    {
+        $arr = [];
+        $this->assertEquals([], ArrayHelper::chunk($arr));
+
+        $arr = [
+            'foo' => 'bar',
+            'bar' => 'baz',
+            'vodka' => 'balalayka'
+        ];
+        $expected = [
+            [
+                'foo' => 'bar',
+                'bar' => 'baz'
+            ],
+            [
+                'vodka' => 'balalayka'
+            ]
+        ];
+        $this->assertEquals($expected, ArrayHelper::chunk($arr, 2));
+    }
 }
