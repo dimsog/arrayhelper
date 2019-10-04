@@ -1497,12 +1497,16 @@ class ArrayHelper
      * ]
      * ```
      * @param array $array
-     * @param $key
+     * @param string|null $key
      * @param string $direction
      * @return array
      */
-    public static function sortBy(array $array, $key, $direction = 'ASC')
+    public static function sortBy(array $array, $key = null, $direction = 'ASC')
     {
+        if (empty($key)) {
+            $direction == 'ASC' ? sort($array) : rsort($array);
+            return $array;
+        }
         if (static::isMulti($array) == false) {
             return $array;
         }
@@ -1528,7 +1532,7 @@ class ArrayHelper
      * @param $key
      * @return array
      */
-    public static function sortByAsc(array $array, $key)
+    public static function sortByAsc(array $array, $key = null)
     {
         return static::sortBy($array, $key, 'ASC');
     }
@@ -1539,7 +1543,7 @@ class ArrayHelper
      * @param $key
      * @return array
      */
-    public static function sortByDesc(array $array, $key)
+    public static function sortByDesc(array $array, $key = null)
     {
         return static::sortBy($array, $key,'DESC');
     }

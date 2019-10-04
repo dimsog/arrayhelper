@@ -299,6 +299,24 @@ class Fluent
         return $this;
     }
 
+    public function sortBy($key = null, $direction = 'ASC')
+    {
+        $this->array = ArrayHelper::sortBy($this->array, $key, $direction);
+        return $this;
+    }
+
+    public function sortByAsc($key = null)
+    {
+        $this->array = ArrayHelper::sortByAsc($this->array, $key);
+        return $this;
+    }
+
+    public function sortByDesc($key = null)
+    {
+        $this->array = ArrayHelper::sortByDesc($this->array, $key);
+        return $this;
+    }
+
     /**
      * Return a result array
      * @return array

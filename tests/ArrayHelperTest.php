@@ -1169,6 +1169,11 @@ class ArrayHelperTest extends TestCase
 
     public function testSortByAsc()
     {
+        $array = [10, 9, 8, 7];
+        $result = ArrayHelper::sortByAsc($array);
+        $expected = [7, 8, 9, 10];
+        $this->assertEquals($expected, $result);
+
         $array = [
             ['id' => 10],
             ['id' => 1]
@@ -1195,6 +1200,11 @@ class ArrayHelperTest extends TestCase
 
     public function testSortByDesc()
     {
+        $array = [1, 2, 3, 4];
+        $result = ArrayHelper::sortByDesc($array);
+        $expected = [4, 3, 2, 1];
+        $this->assertEquals($expected, $result);
+
         $array = [
             ['id' => 1],
             ['id' => 10]
@@ -1241,6 +1251,32 @@ class ArrayHelperTest extends TestCase
         ];
         $result = ArrayHelper::sortByDesc($array, 'id');
         $expected = $array;
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testFluentArraySortByAsc()
+    {
+        $array = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3];
+        $result = Arr::fluent($array)
+            ->filter(function ($element) {
+                return $element > 2;
+            })
+            ->sortByAsc()
+            ->get();
+        $expected = [3, 4, 5, 6, 7, 8, 9, 10];
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testFluentArraySortByDesc()
+    {
+        $array = [3, 4, 5, 6, 7];
+        $result = Arr::fluent($array)
+            ->filter(function ($element) {
+                return $element > 4;
+            })
+            ->sortByDesc()
+            ->get();
+        $expected = [7, 6, 5];
         $this->assertEquals($expected, $result);
     }
 }
