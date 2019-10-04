@@ -201,13 +201,16 @@ class ArrayHelper
      * ArrayHelper::getValue($stdClass, 'photo.big');
      * ```
      *
-     * @param array|\stdClass $array
+     * @param null|array|\stdClass $array
      * @param $key
      * @param null|\Closure $defaultValue
      * @return mixed
      */
     public static function getValue($array, $key, $defaultValue = null)
     {
+        if (empty($array)) {
+            return $defaultValue;
+        }
         if ($defaultValue instanceof \Closure) {
             $defaultValue = call_user_func($defaultValue);
         }
