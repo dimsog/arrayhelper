@@ -1166,4 +1166,81 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals("bar", Arr::get(null, "foo", "bar"));
         $this->assertNull(Arr::get(null, "bar.baz"));
     }
+
+    public function testSortByAsc()
+    {
+        $array = [
+            ['id' => 10],
+            ['id' => 1]
+        ];
+        $result = ArrayHelper::sortByAsc($array, 'id');
+        $expected = [
+            ['id' => 1],
+            ['id' => 10]
+        ];
+        $this->assertEquals($expected, $result);
+
+        $std1 = new \stdClass();
+        $std1->id = 100;
+        $std2 = new \stdClass();
+        $std2->id = 50;
+        $std3 = new \stdClass();
+        $std3->id = 70;
+
+        $array = [$std1, $std2, $std3];
+        $result = ArrayHelper::sortByAsc($array, 'id');
+        $expected = [$std2, $std3, $std1];
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testSortByDesc()
+    {
+        $array = [
+            ['id' => 1],
+            ['id' => 10]
+        ];
+        $result = ArrayHelper::sortByDesc($array, 'id');
+        $expected = [
+            ['id' => 10],
+            ['id' => 1]
+        ];
+        $this->assertEquals($expected, $result);
+
+        $std1 = new \stdClass();
+        $std1->id = 100;
+        $std2 = new \stdClass();
+        $std2->id = 50;
+        $std3 = new \stdClass();
+        $std3->id = 70;
+
+        $array = [$std1, $std2, $std3];
+        $result = ArrayHelper::sortByDesc($array, 'id');
+        $expected = [$std1, $std3, $std2];
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testInvalidKeySort()
+    {
+        $array = [
+            ['id' => 1],
+            ['id' => 10],
+        ];
+        $result = ArrayHelper::sortByDesc($array, 'key2');
+        $expected = [
+            ['id' => 1],
+            ['id' => 10]
+        ];
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testIsNotMultiArraySort()
+    {
+        $array = [
+            'id' => 1,
+            'id2' => 2
+        ];
+        $result = ArrayHelper::sortByDesc($array, 'id');
+        $expected = $array;
+        $this->assertEquals($expected, $result);
+    }
 }
