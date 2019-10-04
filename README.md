@@ -17,6 +17,10 @@ composer require dimsog/arrayhelper
 ```
 Packagist link [here](https://packagist.org/packages/dimsog/arrayhelper)
 
+# Upgrade information
+### Upgrade from 1.2.1 to 1.2.2
+* Fluent::chunk($array, $column = 2) transformed to Fluent::chunk($column = 2)
+
 # Fluent interface
 ```php
 ArrayHelper::fluent($sourceArray)
@@ -72,6 +76,9 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [replaceKey](#replace-key)
 * [set](#set)
 * [shuffle](#shuffle-an-array)
+* [sortBy](#sorting)
+* [sortByAsc](#sorting)
+* [sortByDesc](#sorting)
 * [splitString](#split-string)
 * [sum](#sum)
 * [toArray](#to-array)
@@ -343,6 +350,7 @@ Retrieves the value of an array.
 You may also use stdClass instead array.
 ```php
 ArrayHelper::getValue($array, $key, $defaultValue = null)
+ArrayHelper::get($array, $key, $defaultValue = null)
 ```
 
 ##### Demo:
@@ -810,6 +818,30 @@ ArrayHelper::shuffle(array $array)
 ```php
 ArrayHelper::shuffle([1, 2, 3]);
 result: [3, 1, 2]
+```
+
+### Sorting
+These methods sort arrays
+```php
+ArrayHelper::sortBy(array $array, $key = null, $direction = 'ASC');
+ArrayHelper::sortByAsc(array $array, $key = null);
+ArrayHelper::sortByDesc(array $array, $key = null);
+```
+
+##### Demo
+```php
+$array = [
+    ['id' => 1],
+    ['id' => 10]
+];
+
+$result = ArrayHelper::sortByDesc($array, 'id');
+result:
+[
+    ['id' => 10],
+    ['id' => 1]
+];
+
 ```
 
 ### Split string

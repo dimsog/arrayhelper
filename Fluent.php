@@ -293,9 +293,27 @@ class Fluent
         return ArrayHelper::exist($this->array, $condition);
     }
 
-    public function chunk(array $array, $column = 2)
+    public function chunk($column = 2)
     {
-        $this->array = ArrayHelper::chunk($array, $column);
+        $this->array = ArrayHelper::chunk($this->array, $column);
+        return $this;
+    }
+
+    public function sortBy($key = null, $direction = 'ASC')
+    {
+        $this->array = ArrayHelper::sortBy($this->array, $key, $direction);
+        return $this;
+    }
+
+    public function sortByAsc($key = null)
+    {
+        $this->array = ArrayHelper::sortByAsc($this->array, $key);
+        return $this;
+    }
+
+    public function sortByDesc($key = null)
+    {
+        $this->array = ArrayHelper::sortByDesc($this->array, $key);
         return $this;
     }
 

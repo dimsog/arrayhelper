@@ -201,13 +201,16 @@ class ArrayHelper
      * ArrayHelper::getValue($stdClass, 'photo.big');
      * ```
      *
-     * @param array|\stdClass $array
+     * @param null|array|\stdClass $array
      * @param $key
      * @param null|\Closure $defaultValue
      * @return mixed
      */
     public static function getValue($array, $key, $defaultValue = null)
     {
+        if (empty($array)) {
+            return $defaultValue;
+        }
         if ($defaultValue instanceof \Closure) {
             $defaultValue = call_user_func($defaultValue);
         }
@@ -222,6 +225,19 @@ class ArrayHelper
             return $array[$key];
         }
         return $defaultValue;
+    }
+
+    /**
+     * Alias for ArrayHelper::getValue()
+     * @see ArrayHelper::getValue()
+     * @param $array
+     * @param $key
+     * @param null $defaultValue
+     * @return mixed
+     */
+    public static function get($array, $key, $defaultValue = null)
+    {
+        return static::getValue($array, $key, $defaultValue);
     }
 
     /**
@@ -252,13 +268,17 @@ class ArrayHelper
     {
         if ($strongCheck) {
             foreach ($array as $key => $item) {
-                if (is_int($key) == false || is_array($item) == false) {
+                if (is_int($key) == false) {
+                    return false;
+                }
+
+                if (is_array($item) == false && $item instanceof \stdClass == false) {
                     return false;
                 }
             }
             return true;
         }
-        return isset($array[0]) && is_array($array[0]);
+        return isset($array[0]) && (is_array($array[0]) || $array[0] instanceof \stdClass);
     }
 
     /**
@@ -1460,5 +1480,71 @@ class ArrayHelper
             $result = array_pad($result, $column,  []);
         }
         return $result;
+    }
+
+    /**
+     * The method sorts an array by specific key
+     * ```php
+     * $array = [
+     *      ['id' => 100],
+     *      ['id' => 1]
+     * ];
+     * $result = ArrayHelper::sortBy($array, 'id');
+     * result:
+     * [
+     *  ['id' => 1],
+     *  ['id' => 100]
+     * ]
+     * ```
+     * @param array $array
+     * @param string|null $key
+     * @param string $direction
+     * @return array
+     */
+    public static function sortBy(array $array, $key = null, $direction = 'ASC')
+    {
+        if (empty($key)) {
+            $direction == 'ASC' ? sort($array) : rsort($array);
+            return $array;
+        }
+        if (static::isMulti($array) == false) {
+            return $array;
+        }
+        usort($array, function ($a, $b) use ($key, $direction) {
+            $firstArrayValue = static::get($a, $key, 0);
+            $secondArrayValue = static::get($b, $key, 0);
+
+            if ($firstArrayValue === $secondArrayValue) {
+                return 0;
+            }
+            if ($direction === 'ASC') {
+                return $firstArrayValue > $secondArrayValue;
+            } else {
+                return $firstArrayValue < $secondArrayValue;
+            }
+        });
+        return $array;
+    }
+
+    /**
+     * Sorts an array in descending  order by specific key
+     * @param array $array
+     * @param $key
+     * @return array
+     */
+    public static function sortByAsc(array $array, $key = null)
+    {
+        return static::sortBy($array, $key, 'ASC');
+    }
+
+    /**
+     * Sorts an array in ascending order by specific key
+     * @param array $array
+     * @param $key
+     * @return array
+     */
+    public static function sortByDesc(array $array, $key = null)
+    {
+        return static::sortBy($array, $key,'DESC');
     }
 }
