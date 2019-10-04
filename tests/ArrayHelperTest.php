@@ -1233,7 +1233,7 @@ class ArrayHelperTest extends TestCase
     {
         $array = [
             ['id' => 1],
-            ['id' => 10],
+            ['id' => 10]
         ];
         $result = ArrayHelper::sortByDesc($array, 'key2');
         $expected = [
