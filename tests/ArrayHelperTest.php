@@ -1160,4 +1160,10 @@ class ArrayHelperTest extends TestCase
         ];
         $this->assertEquals('bar', Arr::get($array, 'foo'));
     }
+
+    public function testEmptyGetValue()
+    {
+        $this->assertEquals("bar", Arr::get(null, "foo", "bar"));
+        $this->assertNull(Arr::get(null, "bar.baz"));
+    }
 }
