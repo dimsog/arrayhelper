@@ -293,9 +293,9 @@ class Fluent
         return ArrayHelper::exist($this->array, $condition);
     }
 
-    public function chunk(array $array, $column = 2)
+    public function chunk($column = 2)
     {
-        $this->array = ArrayHelper::chunk($array, $column);
+        $this->array = ArrayHelper::chunk($this->array, $column);
         return $this;
     }
 
