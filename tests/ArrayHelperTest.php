@@ -1,6 +1,7 @@
 <?php
 namespace dimsog\arrayhelper\tests;
 
+use dimsog\arrayhelper\Arr;
 use dimsog\arrayhelper\ArrayHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -1150,5 +1151,13 @@ class ArrayHelperTest extends TestCase
             ]
         ];
         $this->assertEquals($expected, ArrayHelper::chunk($arr, 2));
+    }
+
+    public function testGet()
+    {
+        $array = [
+            'foo' => 'bar'
+        ];
+        $this->assertEquals('bar', Arr::get($array, 'foo'));
     }
 }

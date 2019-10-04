@@ -228,6 +228,19 @@ class ArrayHelper
     }
 
     /**
+     * Alias for ArrayHelper::getValue()
+     * @see ArrayHelper::getValue()
+     * @param $array
+     * @param $key
+     * @param null $defaultValue
+     * @return mixed
+     */
+    public static function get($array, $key, $defaultValue = null)
+    {
+        return static::getValue($array, $key, $defaultValue);
+    }
+
+    /**
      * Check, if this array is multidimensional
      *
      * For example:
