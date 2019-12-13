@@ -9,6 +9,7 @@ Supported PHP versions:
 * PHP 7.1
 * PHP 7.2
 * PHP 7.3
+* PHP 7.4
 
 # Install
 You can install ArrayHelper via composer:
