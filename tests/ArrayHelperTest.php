@@ -1279,4 +1279,15 @@ class ArrayHelperTest extends TestCase
         $expected = [7, 6, 5];
         $this->assertEquals($expected, $result);
     }
+
+    public function testWrap()
+    {
+        $value = 1;
+        $value = Arr::wrap($value);
+        $this->assertEquals([1], $value);
+
+        $value = [123, 456];
+        $value = Arr::wrap($value);
+        $this->assertEquals([123, 456], $value);
+    }
 }

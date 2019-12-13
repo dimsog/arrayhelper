@@ -1547,4 +1547,14 @@ class ArrayHelper
     {
         return static::sortBy($array, $key,'DESC');
     }
+
+    /**
+     * Wrap value to array.
+     * @param $value
+     * @return array
+     */
+    public static function wrap($value)
+    {
+        return is_array($value) ? $value : [$value];
+    }
 }
