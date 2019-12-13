@@ -85,6 +85,7 @@ Arr::collapse([[1, 2, 3], [4, 5, 6]]);
 * [toInt](#toint)
 * [unique](#unique)
 * [values](#values)
+* [wrap](#wrap)
 
 # Code examples
 
@@ -1070,4 +1071,15 @@ $array = [
 ArrayHelper::values($array);
 // result:
 ['Dmitry R', 'Russia', 'PHP', 'JS', 'vodka medved balalayka'];
+```
+
+### Wrap
+Wrap a value to array
+```php
+ArrayHelper::wrap($value)
+```
+##### Demo:
+```php
+ArrayHelper::wrap('123');
+// result: ['123']
 ```
